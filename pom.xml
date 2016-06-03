@@ -89,7 +89,7 @@
 				<!-- 执行 -->
 				<executions>
 					<execution>
-						<!-- 在打包后执行jetty:run来运行jetty服务 -->
+						<!-- 在打包后执行jetty:run来运行jetty服务 更新标记-->
 						<phase>package</phase>
 						<goals>
 							<goal>run</goal>
