@@ -15,9 +15,9 @@ public class DownloadHtml {
 			URL url = new URL(inputUrl);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.connect();
-			BufferedReader br = new BufferedReader();
+//			BufferedReader br = new BufferedReader();
 			
-			conn.getInputStream()
+			conn.getInputStream();
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
