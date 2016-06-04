@@ -16,6 +16,7 @@ public class DownloadHtml {
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.connect();
 //			BufferedReader br = new BufferedReader();
+			//eclipse–ﬁ∏ƒ≤‚ ‘2
 			
 			conn.getInputStream();
 		} catch (MalformedURLException e) {
