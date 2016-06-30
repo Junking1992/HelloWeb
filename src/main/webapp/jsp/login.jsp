@@ -1,52 +1,35 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%
 	String msg = (String) (request.getAttribute("msg") == null ? "" : request.getAttribute("msg"));
-	if(session.getAttribute("user") != null){
-		request.getRequestDispatcher("/jsp/index.jsp").forward(request, response);
-	}
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Logins</title>
-<style type="text/css">
-#center {
-	margin-right: auto;
-	margin-left: auto;
-	height: 100px;
-	width: 800px;
-	margin-top: 200px;
-	margin-bottom:250px;
-	text-align: center;
-}
-#rights {
-	margin-right: auto;
-	margin-left: auto;
-	text-align: center;
-	font-size: 8pt;
-}
-#login {
-	color: #000;
-	background-color: #fff;
-	font-size: 8pt;
-	font-style: normal;
-}
-
-</style>
+<meta charset="utf-8">
+<title>WebApp</title>
+<meta name="viewport" content="width=50%, initial-scale=1">
+<link rel="stylesheet" href="../css/jquery.mobile-1.4.5.css" />
+<script src="../js/jquery-1.12.4.js"></script>
+<script src="../js/jquery.mobile-1.4.5.js"></script>
 </head>
-<body style="margin: 0px;background: #eee;">
-	<div id="center">
-		<h1>不良网站!!</h1>
-		<form action="/HelloWeb/web/login" method="post">
-			<span style="font-size: 8pt;"><%=msg%></span><br/> 
-			<input name="userName" /> <input type="password" name="passWord" /> <input id='login'
-				type="submit" value="Login" />
-		</form>
-	</div>
-	<div id="rights">
-		<span>Copyright © 1992 - 2016 Junking. All Rights Reserved</span>
+
+<body>
+	<!-- Page1 -->
+	<div data-role="page" id="index" data-theme="b">
+		<!-- header -->
+		<div data-role="header" data-position="fixed"></div>
+		<!-- content -->
+		<div role="main" class="ui-content">
+			<form method="post" action="/HelloWeb/web/login">
+				<div data-role="fieldcontain" >
+					<input type="text" name="userName" id="userName" placeholder="帐号"> 
+					<input type="text" name="passWord" id="passWord" placeholder="密码">
+				</div>
+				<input type="submit" data-inline="true" data-transition="flip" value="提交">
+			</form>
+		</div>
+		<!-- footer -->
+		<div data-role="footer" data-position="fixed"></div>
 	</div>
 </body>
 </html>
