@@ -8,6 +8,17 @@ public class User {
 	public String passWord;
 	public String name;
 
+	public User() {
+		super();
+	}
+
+	public User(String userName, String passWord, String name) {
+		super();
+		this.userName = userName;
+		this.passWord = passWord;
+		this.name = name;
+	}
+
 	public String getUserName() {
 		return userName;
 	}

@@ -10,29 +10,53 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.junking.model.User;
+import com.junking.service.LoginService;
 
 @Controller
 public class WebController {
 	
 	@Resource
-	public User user;
+	public LoginService loginService;
 	
-	@RequestMapping(value="/login")
-	public void login(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException, ServletException{
-		String userName = request.getParameter("userName");
-		String passWord = request.getParameter("passWord");
-		if("admin".equals(userName) && "admin".equals(passWord)){
-			user.setUserName(userName);
-			user.setPassWord(passWord);
-			user.setName("wangjun");
+	@RequestMapping(value="/login", method=RequestMethod.POST)
+	public void check(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException, ServletException{
+		User user = loginService.checkLoginInfo(request);
+		if(user != null){
 			session.setAttribute("user", user);
-			response.sendRedirect("/jsp/home.jsp");
+			response.sendRedirect("home");
 		}else{
 			request.setAttribute("msg", "请输入正确的帐号或密码！");
 			request.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
 		}
+	}
+	
+	@RequestMapping(value="/login", method=RequestMethod.GET)
+	public void login(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException{
+		User user = (User) session.getAttribute("user");
+		if(user != null){
+			response.sendRedirect("home");
+		}else{
+			request.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
+		}
+	}
+	
+	@RequestMapping(value="/home")
+	public void home(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException{
+		User user = (User) session.getAttribute("user");
+		if(user != null){
+			request.getRequestDispatcher("/jsp/home.jsp").forward(request, response);
+		}else{
+			response.sendRedirect("login");
+		}
+	}
+	
+	@RequestMapping(value="/exit")
+	public void exit(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException{
+		session.setAttribute("user", null);
+		response.sendRedirect("login");
 	}
 	
 }
