@@ -18,6 +18,22 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>web-dispatcher</servlet-name>
+		<url-pattern>/jun/*</url-pattern>
+	</servlet-mapping>
+	
+	<!-- DispatcherServlet, Spring MVC的核心 -->
+	<servlet>
+		<servlet-name>web-web-dispatcher</servlet-name>
+		<servlet-class> org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<!-- DispatcherServlet对应的上下文配置， 默认为/WEB-INF/$servlet-name$-servlet.xml -->
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/config/web-web-servlet.xml</param-value>
+		</init-param>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>web-web-dispatcher</servlet-name>
 		<url-pattern>/web/*</url-pattern>
 	</servlet-mapping>
 
