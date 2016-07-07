@@ -41,12 +41,14 @@ public class WebController {
 	}
 	
 	@RequestMapping(value="/login", method=RequestMethod.GET)
-	public void login(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException{
+	public String login(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException{
 		User user = (User) session.getAttribute("user");
 		if(user != null){
-			response.sendRedirect("home");
+			return "redirect:home";
+//			response.sendRedirect("home");
 		}else{
-			request.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
+			return "redirect:home";
+//			request.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
 		}
 	}
 	
