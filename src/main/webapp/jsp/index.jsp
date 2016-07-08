@@ -7,10 +7,6 @@
 </head>
 
 <body>
-	<form method="post" action="/HelloWeb/web/login">
-		帐号：<input type="text" name="userName"><br/> 
-		密码：<input type="text" name="passWord"><br/>
-		<input type="submit" value="提交">
-	</form>
+	index<a href="/HelloWeb/web/loginOut">退出</a>
 </body>
 </html>

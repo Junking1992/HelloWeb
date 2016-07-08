@@ -15,12 +15,10 @@ public class LoginInterceptor implements HandlerInterceptor{
 	public boolean preHandle(HttpServletRequest httpservletrequest, HttpServletResponse httpservletresponse, Object obj) throws Exception {
 		User user = (User) WebUtils.getSessionAttribute(httpservletrequest, "user");
 		if(user == null){
-			httpservletresponse.sendRedirect(httpservletrequest);
+			httpservletresponse.sendRedirect("http://localhost/HelloWeb/web/login");
 			return false;
-		}else{
-			
-			return true;
 		}
+		return true;
 	}
 
 	@Override

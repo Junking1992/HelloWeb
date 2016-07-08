@@ -33,7 +33,7 @@
 		<property name="suffix" value=".jsp" />
 	</bean>
 	
-	<bean id="loginInterceptor" class="com.zhaogang.backend.common.interceptor.LoginInterceptor"></bean>
+	<bean id="loginInterceptor" class="com.web.interceptor.LoginInterceptor"></bean>
 	<mvc:interceptors>
 		<mvc:interceptor> 
 			<mvc:mapping path="/**"/>
