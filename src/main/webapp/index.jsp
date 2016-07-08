@@ -1,3 +1,3 @@
 <script>
-document.location.href="jun/login";
+document.location.href="web/index";
 </script>

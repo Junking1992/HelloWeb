@@ -32,5 +32,19 @@
 		<property name="prefix" value="/jsp/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
+	
+	<bean id="loginInterceptor" class="com.zhaogang.backend.common.interceptor.LoginInterceptor"></bean>
+	<mvc:interceptors>
+		<mvc:interceptor> 
+			<mvc:mapping path="/**"/>
+<!-- 			<mvc:exclude-mapping path="/module/**"/>   -->
+<!-- 			<mvc:exclude-mapping path="/favicon.ico"/>   -->
+<!-- 			<mvc:exclude-mapping path="/services/*/**"/>   -->
+<!-- 			<mvc:exclude-mapping path="/logln.action"/>   -->
+<!-- 			<mvc:exclude-mapping path="/validateLoginNameAndPwd.action"/> -->
+			<mvc:exclude-mapping path="/login"/>
+			<ref bean="loginInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
 
 </beans>
