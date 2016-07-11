@@ -21,6 +21,8 @@ public class LoginService {
 	private User user;
 
 	private CookieManager manager;
+	
+	public String msg;
 
 	@Resource
 	public UserInfo allUser;
@@ -35,14 +37,20 @@ public class LoginService {
 	 * @date 2016年7月9日 下午3:40:40
 	 */
 	public User checkLoginInfo(HttpServletRequest request, HttpServletResponse response) {
-		manager = new CookieManager(request, response);
-		String cookieValue = manager.getCookieValue(COOKIE_NAME);
-		if (cookieValue == null || !checkCookieValue(cookieValue)) {
-			if (checkRequestIsBlank(request)) {
-				return null;
-			}else{
-				checkUserNameAndPassWord(request);
+		if("POST".equals(request.getMethod())){
+			manager = new CookieManager(request, response);
+			String cookieValue = manager.getCookieValue(COOKIE_NAME);
+			if (cookieValue == null || !checkCookieValue(cookieValue)) {
+				if (checkRequestIsBlank(request)) {
+					msg = "帐号或密码不能为空";
+					return null;
+				} else {
+					checkUserNameAndPassWord(request);
+				}
 			}
+		}else{
+			user = null;
+			msg = "";
 		}
 		return user;
 	}
@@ -61,7 +69,7 @@ public class LoginService {
 			// 设定cookie有效时间为从登录到当天24点
 			String nowDayStr = DateUtils.formatDate(new Date(), "yyyy-MM-dd");// 获取当前日期
 			Date nowDayEndStr = DateUtils.parseDate(nowDayStr + " 23:59:59", "yyyy-MM-dd HH:mm:ss");// 当天最后1秒时间
-			Integer cookieTimeOut = Long.valueOf((nowDayEndStr.getTime() - new Date().getTime()) / 1000).intValue();// 到24点的秒数
+			Integer cookieTimeOut = Long.valueOf((nowDayEndStr.getTime() - new Date().getTime()) / 1000).intValue() + 1;// 到24点的秒数
 
 			// 加密组成cookieValue
 			String cookieValue = userName + "-" + passWord;
@@ -115,16 +123,29 @@ public class LoginService {
 	 */
 	private boolean checkPassWord(String userName, String passWord) {
 		user = allUser.getAllUser().get(userName);
-		if (user != null && user.getPassWord().equals(passWord)) {
+		if (user == null) {
+			msg = "帐号不正确";
+			return false;
+		} else if(user.getPassWord().equals(passWord)){
 			return true;
-		} else {
+		}else {
+			msg = "密码不正确";
 			user = null;
 		}
 		return false;
 	}
 
+	/**
+	 * 登出
+	 * 
+	 * @param request
+	 * @param response
+	 * @author W11821
+	 * @date 2016年7月11日 上午11:49:38
+	 */
 	public void loginOutCookie(HttpServletRequest request, HttpServletResponse response) {
 		manager = new CookieManager(request, response);
 		manager.removCookie(COOKIE_NAME);
 	}
+	
 }

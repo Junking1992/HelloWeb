@@ -93,6 +93,7 @@ public class CookieManager {
 			cookie = cookies[i];
 			if (cookie.getName().equalsIgnoreCase(name)) {
 				cookie.setMaxAge(0);
+				cookie.setPath("/");
 				response.addCookie(cookie);
 			}
 		}

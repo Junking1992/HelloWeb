@@ -1,13 +1,12 @@
 package com.web.controller;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.WebUtils;
 
 import com.web.model.User;
@@ -20,7 +19,7 @@ public class LoginController {
 	private LoginService loginService;
 
 	@RequestMapping("/login")
-	public String login(HttpServletRequest request, HttpServletResponse response, RedirectAttributes attr) {
+	public String login(HttpServletRequest request, HttpServletResponse response, ModelMap model) {
 		if (WebUtils.getSessionAttribute(request, "user") != null) {
 			return "redirect:index";
 		}
@@ -29,11 +28,14 @@ public class LoginController {
 			request.getSession().setAttribute("user", user);
 			return "redirect:index";
 		}
+		model.put("msg", loginService.msg);
+		model.put("userName", request.getParameter("userName"));
+		model.put("passWord", request.getParameter("passWord"));
 		return "login";
 	}
 
 	@RequestMapping("/index")
-	public String index() {
+	public String index(ModelMap model) {
 		return "index";
 	}
 
@@ -41,7 +43,7 @@ public class LoginController {
 	public String loginOut(HttpServletRequest request, HttpServletResponse response) {
 		request.getSession().removeAttribute("user");
 		loginService.loginOutCookie(request, response);
-		return "redirect:index";
+		return "redirect:login";
 	}
 
 }

@@ -43,4 +43,9 @@ public class User {
 		this.name = name;
 	}
 
+	@Override
+	public String toString() {
+		return "User [userName=" + userName + ", passWord=" + passWord + ", name=" + name + "]";
+	}
+
 }

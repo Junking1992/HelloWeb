@@ -7,6 +7,6 @@
 </head>
 
 <body>
-	index<a href="/HelloWeb/web/loginOut">退出</a>
+	index<a href="/HelloWeb/web/loginOut">退出</a>${msg}${msg1}
 </body>
 </html>

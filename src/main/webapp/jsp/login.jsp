@@ -8,8 +8,8 @@
 
 <body>
 	<form method="post" action="/HelloWeb/web/login">
-		帐号：<input type="text" name="userName"><br/> 
-		密码：<input type="text" name="passWord"><br/>
+		帐号：<input type="text" name="userName" value="${userName}"><font color="red">${msg}</font><br/> 
+		密码：<input type="password" name="passWord" value="${passWord}" ><br/>
 		<input type="submit" value="提交">
 	</form>
 </body>
