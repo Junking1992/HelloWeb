@@ -34,12 +34,8 @@ public class LoginController {
 			return "redirect:index";
 		}
 		model.put("msg", loginService.msg);
+		model.put("userName", request.getParameter("userName"));
 		return "login";
-	}
-
-	@RequestMapping("/index")
-	public String index(ModelMap model) {
-		return "index";
 	}
 
 	@RequestMapping("/loginOut")
@@ -47,6 +43,11 @@ public class LoginController {
 		request.getSession().removeAttribute("user");
 		loginService.loginOutCookie(request, response);
 		return "redirect:login";
+	}
+
+	@RequestMapping("/index")
+	public String index(ModelMap model) {
+		return "index";
 	}
 
 }

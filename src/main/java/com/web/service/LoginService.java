@@ -2,11 +2,12 @@ package com.web.service;
 
 import java.util.Date;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.web.common.CookieManager;
@@ -20,12 +21,15 @@ public class LoginService {
 	private final String COOKIE_NAME = "JunCookie";
 
 	private User user;
-
-	private CookieManager manager;
 	
 	public String msg;
+	
+	@Autowired
+	@Qualifier("manager")
+	private CookieManager manager;
 
-	@Resource
+	@Autowired
+	@Qualifier("allUser")
 	public UserInfo allUser;
 
 	/**
@@ -40,7 +44,7 @@ public class LoginService {
 	 */
 	public User checkLoginInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		if("POST".equals(request.getMethod())){
-			manager = new CookieManager(request, response);
+//			manager = new CookieManager(request, response);
 			String cookieValue = manager.getCookieValue(COOKIE_NAME);
 			if (cookieValue == null || !checkCookieValue(cookieValue)) {
 				if (checkRequestIsBlank(request)) {
@@ -147,7 +151,7 @@ public class LoginService {
 	 * @date 2016年7月11日 上午11:49:38
 	 */
 	public void loginOutCookie(HttpServletRequest request, HttpServletResponse response) {
-		manager = new CookieManager(request, response);
+//		manager = new CookieManager(request, response);
 		manager.removCookie(COOKIE_NAME);
 	}
 	

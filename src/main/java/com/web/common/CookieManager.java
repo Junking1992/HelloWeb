@@ -4,17 +4,23 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 /**
  * cookie的管理器
  * 
  * @author xiulong.zhang
  * 
  */
+@Component("manager")
 public class CookieManager {
 
 	private HttpServletRequest request;
+
 	private HttpServletResponse response;
 
+	@Autowired
 	public CookieManager(HttpServletRequest req, HttpServletResponse res) {
 		request = req;
 		response = res;
@@ -83,8 +89,8 @@ public class CookieManager {
 		}
 		return null;
 	}
-	
-	public void removCookie(String name){
+
+	public void removCookie(String name) {
 		Cookie[] cookies = request.getCookies();
 		if (cookies == null)
 			return;
