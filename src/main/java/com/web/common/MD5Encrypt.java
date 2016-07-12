@@ -3,77 +3,48 @@ package com.web.common;
 import java.security.MessageDigest;
 
 public class MD5Encrypt {
-	/***
-	 * MD5加密 生成32位md5码
+
+	/**
+	 * MD5加密 生成16位或32位md5码
 	 * 
-	 * @param 待加密字符串
-	 * @return 返回32位md5码
+	 * @param inStr
+	 * @param digit
+	 * @return
+	 * @throws Exception
+	 * @author W11821
+	 * @date 2016年7月12日 上午10:22:46
 	 */
-	public static String md5Encode(String inStr) throws Exception {
+	public static String md5Encode(String inStr, int digit) throws Exception {
 		MessageDigest md5 = null;
 		try {
 			md5 = MessageDigest.getInstance("MD5");
 		} catch (Exception e) {
-			System.out.println(e.toString());
 			e.printStackTrace();
 			return "";
 		}
-
 		byte[] byteArray = inStr.getBytes("UTF-8");
-		for(int i = 0; i < byteArray.length; i++){
-			byteArray[i] = (byte)(byteArray[i] << 3);
+		//移位
+		for (int i = 0; i < byteArray.length; i++) {
+			byteArray[i] = (byte) (byteArray[i] << 3);
 		}
 		byte[] md5Bytes = md5.digest(byteArray);
 		StringBuffer hexValue = new StringBuffer();
 		for (int i = 0; i < md5Bytes.length; i++) {
-			int val = ((int) md5Bytes[i]) & 0xff;
-			if (val < 16) {
+			if ((md5Bytes[i] & 0xff) < 0x10) {
 				hexValue.append("0");
 			}
-			hexValue.append(Integer.toHexString(val));
+			hexValue.append(Long.toString(md5Bytes[i] & 0xff, 16));
 		}
-		return hexValue.toString();
-	}
-
-	/**
-	 *  MD5加密函数
-	 * @param sourceString
-	 * @return
-	 */
-	public static String md5Encode2(String sourceString) {
-		String resultString = null;
-		try {
-			resultString = new String(sourceString);
-			MessageDigest md = MessageDigest.getInstance("MD5");
-			resultString = byte2hexString(md.digest(resultString.getBytes()));
-		} catch (Exception ex) {
+		if (digit == 16) {
+			return hexValue.toString().substring(8, 24);
+		} else if (digit == 32) {
+			return hexValue.toString();
 		}
-		return resultString;
-	}
-	public static String byte2hexString(byte[] bytes) {
-		StringBuffer bf = new StringBuffer(bytes.length * 2);
-		for (int i = 0; i < bytes.length; i++) {
-			if ((bytes[i] & 0xff) < 0x10) {
-				bf.append("0");
-			}
-			bf.append(Long.toString(bytes[i] & 0xff, 16));
-		}
-		return bf.toString();
+		return "";
 	}
 	
-	/**
-	 * 测试主函数
-	 * 
-	 * @param args
-	 * @throws Exception
-	 */
-	public static void main(String args[]) throws Exception {
-		String str = new String("123456");
-		System.out.println("原始：" + str);
-		long start = System.currentTimeMillis();
-		System.out.println("MD5加密：" + md5Encode(str));
-		System.out.println("MD5加密by鲁总：" + md5Encode2(str));
-		long end = System.currentTimeMillis();
-		System.out.println(end-start);
+	public static void main(String[] args) throws Exception {
+		System.out.println(md5Encode("1234", 32));
 	}
+
 }

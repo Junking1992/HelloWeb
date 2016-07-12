@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.web.common.CookieManager;
 import com.web.common.DateUtils;
+import com.web.common.MD5Encrypt;
 import com.web.model.User;
 
 @Service
@@ -34,9 +35,10 @@ public class LoginService {
 	 * @param response
 	 * @return
 	 * @author W11821
+	 * @throws Exception 
 	 * @date 2016年7月9日 下午3:40:40
 	 */
-	public User checkLoginInfo(HttpServletRequest request, HttpServletResponse response) {
+	public User checkLoginInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		if("POST".equals(request.getMethod())){
 			manager = new CookieManager(request, response);
 			String cookieValue = manager.getCookieValue(COOKIE_NAME);
@@ -60,11 +62,13 @@ public class LoginService {
 	 * 
 	 * @param request
 	 * @author W11821
+	 * @throws Exception 
 	 * @date 2016年7月9日 下午3:40:06
 	 */
-	private void checkUserNameAndPassWord(HttpServletRequest request) {
+	private void checkUserNameAndPassWord(HttpServletRequest request) throws Exception {
 		String userName = request.getParameter("userName").trim();
 		String passWord = request.getParameter("passWord").trim();
+		passWord = MD5Encrypt.md5Encode(passWord, 32);
 		if (checkPassWord(userName, passWord)) {
 			// 设定cookie有效时间为从登录到当天24点
 			String nowDayStr = DateUtils.formatDate(new Date(), "yyyy-MM-dd");// 获取当前日期
@@ -108,7 +112,6 @@ public class LoginService {
 		if (values.length < 2) {
 			return false;
 		}
-		// 解密相关
 		return checkPassWord(values[0], values[1]);
 	}
 

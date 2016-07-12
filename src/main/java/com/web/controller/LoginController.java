@@ -23,14 +23,17 @@ public class LoginController {
 		if (WebUtils.getSessionAttribute(request, "user") != null) {
 			return "redirect:index";
 		}
-		User user = loginService.checkLoginInfo(request, response);
+		User user = null;
+		try {
+			user = loginService.checkLoginInfo(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		if (user != null) {
 			request.getSession().setAttribute("user", user);
 			return "redirect:index";
 		}
 		model.put("msg", loginService.msg);
-		model.put("userName", request.getParameter("userName"));
-		model.put("passWord", request.getParameter("passWord"));
 		return "login";
 	}
 
