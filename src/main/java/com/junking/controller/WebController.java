@@ -35,7 +35,7 @@ public class WebController {
 			session.setAttribute("user", user);
 			response.sendRedirect("home");
 		}else{
-			request.setAttribute("msg", "请输入正确的帐号或密码！");
+			request.setAttribute("msg", "璇疯緭鍏ユ纭殑甯愬彿鎴栧瘑鐮侊紒");
 			request.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
 		}
 	}

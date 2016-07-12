@@ -33,12 +33,12 @@ public class JsoupYeye {
 		Elements pagebox = content.getElementsByClass("pagebox");
 
 		if(pagebox.select("span").first() != null){
-			// È«²¿ÊıÁ¿
+			// å…¨éƒ¨æ•°é‡
 			String allStr = pagebox.select("span").first().html();
-			all = Integer.parseInt(allStr.substring(allStr.indexOf("¹²") + 1, allStr.indexOf("Ìõ")));
+			all = Integer.parseInt(allStr.substring(allStr.indexOf("å…±") + 1, allStr.indexOf("æ¡")));
 		}
 
-		// ÊµÀı»¯list¶ÔÏó
+		// å®ä¾‹åŒ–listå¯¹è±¡
 		Elements dls = list.get(0).getElementsByTag("dl");
 		listEntrys = new ArrayList<ListEntry>();
 		for (Element dl : dls) {
