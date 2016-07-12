@@ -20,5 +20,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="D:/Tomcat 6.0/lib/db2java.jar"/>
 	<classpathentry kind="lib" path="D:/Tomcat 6.0/lib/db2jcc.jar"/>
+	<classpathentry kind="lib" path="D:/eclipse/workspace/backend-sso-api-0.1.0.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

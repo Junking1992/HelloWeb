@@ -7,6 +7,6 @@
 </head>
 
 <body>
-	index<a href="/HelloWeb/web/loginOut">退出</a>${msg}${msg1}
+	404找不到！<a href="/HelloWeb/web/index">返回首页</a>
 </body>
 </html>
