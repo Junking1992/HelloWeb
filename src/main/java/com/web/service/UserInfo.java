@@ -15,7 +15,7 @@ public class UserInfo {
 	
 	public Map<String,User> getAllUser(){
 		Map<String,User> allUser = new HashMap<String,User>();
-		allUser.put("wangjun", new User("wangjun", "80e6597a4d5de68e645ff9f53c0ec0f4", "WangJun"));
+		allUser.put("wangjun", new User("wangjun", "80e6597a4d5de68e645ff9f53c0ec0f4", "王俊"));
 		allUser.put("junking", new User("junking", "3b47518b23baced9c660d7620a876a5d", "Junking"));
 		return allUser;
 	}

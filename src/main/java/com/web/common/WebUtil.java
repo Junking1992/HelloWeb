@@ -57,7 +57,7 @@ public class WebUtil
         }
       }
     }
-    return returnValue;
+    return returnValue.equals("0:0:0:0:0:0:0:1")?"127.0.0.1":returnValue;
   }
   
   public static String getRequestHeadersInfo(HttpServletRequest httpServletRequest)

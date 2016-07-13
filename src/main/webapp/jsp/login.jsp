@@ -23,7 +23,7 @@
 <!-- //Web-Fonts -->
 <style type="text/css">
 	.whiteFont{
-		color : white
+		color : white;
 	}
 	.alpha {background-color:rgba(
 		0,0,0,0)
@@ -62,7 +62,6 @@
 					<div class="page-header">
 					  <h1 class="text-center whiteFont h1Font" >Sign in to System</h1>
 					</div>
-					<div class="panel panel-default alpha" >
 						<div class="panel-body ">
 					   		<p class="text-left whiteFont pFont">帐号</p>
 					   		<div class="input-group col-sm-12">
@@ -81,7 +80,6 @@ value="${userName}">
 						     	 登录
 						    </button>
 						</div>
-					</div>
 				</form>
 				<address style="margin-top:70px" class="text-center whiteFont">
 				  <strong>Copyright © 1992 - 2016 Junking. All Rights Reserved</strong><br>

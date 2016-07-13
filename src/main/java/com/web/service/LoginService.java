@@ -1,6 +1,7 @@
 package com.web.service;
 
 import java.util.Date;
+import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.web.common.CookieManager;
 import com.web.common.DateUtils;
 import com.web.common.MD5Encrypt;
+import com.web.common.WebUtil;
 import com.web.model.User;
 
 @Service
@@ -52,6 +54,9 @@ public class LoginService {
 					return null;
 				} else {
 					checkUserNameAndPassWord(request);
+					if(user != null){
+						userInfo(request);
+					}
 				}
 			}
 		}else{
@@ -59,6 +64,12 @@ public class LoginService {
 			msg = "";
 		}
 		return user;
+	}
+
+	private void userInfo(HttpServletRequest request) {
+		String loginTime = DateUtils.formatDate(new Date(), "yyyy-MM-dd HH:mm:ss");// 获取当前时间
+		user.setIp(WebUtil.getClientIp(request));
+		user.setLoginTime(loginTime);
 	}
 
 	/**
