@@ -6,28 +6,26 @@ import java.util.Map;
 
 import org.json.JSONObject;
 
-import com.web.api.entity.Ip;
-
 public class IpInterface extends CommonApi {
 
-	public IpInterface() {
-		this.APIURL = "http://apis.juhe.cn/ip/ip2addr";
-		this.APPKEY = "f1fdeb3670d4e6f0a53c192c1f9ca6a5";
-	}
+	public static final String APIURL = "http://apis.juhe.cn/ip/ip2addr";
+	
+	public static final String APPKEY = "f1fdeb3670d4e6f0a53c192c1f9ca6a5";
 
 	@Override
-	public Ip parseJson(JSONObject jsonObj) {
-		Ip ip = new Ip();
-		ip.setArea((String) jsonObj.getJSONObject("result").get("area"));
-		ip.setLocation((String) jsonObj.getJSONObject("result").get("location"));
-		return ip;
+	public <T> T parseJson(JSONObject jsonObj) {
+		// TODO Auto-generated method stub
+		return null;
 	}
-
+	
+	//Test
 	public static void main(String[] args) throws IOException {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("ip", "192.168.0.1");
 		map.put("dtype", "json");
-		System.out.println(new IpInterface().getData(map, 5000));
+
+		Map obj = CommonApi.getJsonMapData(APIURL, APPKEY, 5000, map);
+		System.out.println(obj);
 	}
 
 }
