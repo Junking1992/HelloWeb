@@ -13,6 +13,16 @@ abstract class CommonApi {
 
 	public String APPKEY;
 
+	public <T> T getData(Map<String, String> args, int timeOut) {
+		// 从url获取json字串
+		String data = getApiString(APIURL, APPKEY, timeOut, args);
+		if (StringUtils.isBlank(data)) {
+			return null;
+		}
+		return parseJson(new JSONObject(data));
+
+	}
+
 	public String getApiString(String api, String key, int timeOut, Map<String, String> map) {
 		StringBuffer sb = new StringBuffer(api);
 		sb.append("?key=");
@@ -25,16 +35,6 @@ abstract class CommonApi {
 			sb.append(entry.getValue());
 		}
 		return WebUtil.getStringByUrl(sb.toString(), timeOut);
-	}
-
-	public <T> T getData(Map<String, String> args, int timeOut) {
-		// 从url获取json字串
-		String data = getApiString(APIURL, APPKEY, timeOut, args);
-		if(StringUtils.isBlank(data)){
-			return null;
-		}
-		return parseJson(new JSONObject(data));
-
 	}
 
 	public abstract <T> T parseJson(JSONObject jsonObj);
