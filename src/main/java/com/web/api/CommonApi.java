@@ -12,7 +12,12 @@ import org.json.JSONObject;
 
 import com.web.common.WebUtil;
 
-abstract class CommonApi {
+/**
+ * Api通用
+ * @author W11821
+ *
+ */
+public abstract class CommonApi {
 
 	/**
 	 * 通过API得到JsonObject数据

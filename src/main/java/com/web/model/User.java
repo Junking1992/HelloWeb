@@ -10,6 +10,7 @@ public class User {
 	public String ip;
 	public String loginTime;
 	public String address;
+	public String location;
 
 	public User() {
 		super();
@@ -20,6 +21,14 @@ public class User {
 		this.userName = userName;
 		this.passWord = passWord;
 		this.name = name;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
 	public String getUserName() {
@@ -72,7 +81,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [userName=" + userName + ", passWord=" + passWord + ", name=" + name + ", ip=" + ip + ", loginTime=" + loginTime + ", address=" + address + "]";
+		return "User [userName=" + userName + ", passWord=" + passWord + ", name=" + name + ", ip=" + ip + ", loginTime=" + loginTime + ", address=" + address + ", location=" + location + "]";
 	}
 
 }

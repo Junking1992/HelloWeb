@@ -1,7 +1,8 @@
 package com.web.service;
 
 import java.util.Date;
-import java.util.StringTokenizer;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.web.api.CommonApi;
+import com.web.api.IpInterface;
 import com.web.common.CookieManager;
 import com.web.common.DateUtils;
 import com.web.common.MD5Encrypt;
@@ -23,9 +26,9 @@ public class LoginService {
 	private final String COOKIE_NAME = "JunCookie";
 
 	private User user;
-	
+
 	public String msg;
-	
+
 	@Autowired
 	@Qualifier("manager")
 	private CookieManager manager;
@@ -41,12 +44,12 @@ public class LoginService {
 	 * @param response
 	 * @return
 	 * @author W11821
-	 * @throws Exception 
+	 * @throws Exception
 	 * @date 2016年7月9日 下午3:40:40
 	 */
 	public User checkLoginInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		if("POST".equals(request.getMethod())){
-//			manager = new CookieManager(request, response);
+		if ("POST".equals(request.getMethod())) {
+			// manager = new CookieManager(request, response);
 			String cookieValue = manager.getCookieValue(COOKIE_NAME);
 			if (cookieValue == null || !checkCookieValue(cookieValue)) {
 				if (checkRequestIsBlank(request)) {
@@ -54,12 +57,12 @@ public class LoginService {
 					return null;
 				} else {
 					checkUserNameAndPassWord(request);
-					if(user != null){
+					if (user != null) {
 						userInfo(request);
 					}
 				}
 			}
-		}else{
+		} else {
 			user = null;
 			msg = "";
 		}
@@ -70,6 +73,9 @@ public class LoginService {
 		String loginTime = DateUtils.formatDate(new Date(), "yyyy-MM-dd HH:mm:ss");// 获取当前时间
 		user.setIp(WebUtil.getClientIp(request));
 		user.setLoginTime(loginTime);
+		Map<String,String> map = IpInterface.getAddress(WebUtil.getClientIp(request));
+		user.setAddress(map.get("area"));
+		user.setLocation(map.get("location"));
 	}
 
 	/**
@@ -77,7 +83,7 @@ public class LoginService {
 	 * 
 	 * @param request
 	 * @author W11821
-	 * @throws Exception 
+	 * @throws Exception
 	 * @date 2016年7月9日 下午3:40:06
 	 */
 	private void checkUserNameAndPassWord(HttpServletRequest request) throws Exception {
@@ -144,9 +150,9 @@ public class LoginService {
 		if (user == null) {
 			msg = "帐号不正确";
 			return false;
-		} else if(user.getPassWord().equals(passWord)){
+		} else if (user.getPassWord().equals(passWord)) {
 			return true;
-		}else {
+		} else {
 			msg = "密码不正确";
 			user = null;
 		}
@@ -162,8 +168,8 @@ public class LoginService {
 	 * @date 2016年7月11日 上午11:49:38
 	 */
 	public void loginOutCookie(HttpServletRequest request, HttpServletResponse response) {
-//		manager = new CookieManager(request, response);
+		// manager = new CookieManager(request, response);
 		manager.removCookie(COOKIE_NAME);
 	}
-	
+
 }

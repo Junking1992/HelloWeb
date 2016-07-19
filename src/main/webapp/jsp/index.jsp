@@ -62,6 +62,7 @@
 					<ul class="dropdown-menu" role="menu">
 						<li class="dropdown-header">姓名: ${user.name}</li> 
 						<li class="dropdown-header">Ip地址: ${user.ip}</li>
+						<li class="dropdown-header">登录地址：${user.address}---${user.location}</li>
 						<li class="dropdown-header">登录时间: ${user.loginTime}</li>
 						<li class="divider"></li>
 						<li >
