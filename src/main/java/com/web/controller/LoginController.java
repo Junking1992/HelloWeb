@@ -46,7 +46,7 @@ public class LoginController {
 	}
 
 	@RequestMapping("/index")
-	public String index(ModelMap model) {
+	public String index() {
 		return "index";
 	}
 
