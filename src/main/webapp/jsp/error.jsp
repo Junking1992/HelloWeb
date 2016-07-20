@@ -7,6 +7,6 @@
 </head>
 
 <body>
-	404找不到！<a href="/HelloWeb/web/index">返回首页</a>
+	404找不到！<a href="/web/index">返回首页</a>
 </body>
 </html>

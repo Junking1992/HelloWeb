@@ -58,7 +58,7 @@
 	<div class="container vertical-center" >
 		<div class="row">
 			<div class="col-xs-4 col-md-offset-4 " style="margin-top: 50px">
-				<form method="post" action="/HelloWeb/web/login">
+				<form method="post" action="/web/login">
 					<div class="page-header">
 					  <h1 class="text-center whiteFont h1Font" >Sign in to System</h1>
 					</div>

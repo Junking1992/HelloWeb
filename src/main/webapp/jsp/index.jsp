@@ -48,13 +48,13 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand titleFont" href="/HelloWeb/web/index">System</a>
+			<a class="navbar-brand titleFont" href="/web/index">System</a>
 		</div>
 
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li><a href="#/HelloWeb/web/index">首页</a></li>
+				<li><a href="#/web/index">首页</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown">
@@ -66,7 +66,7 @@
 						<li class="dropdown-header">登录时间: ${user.loginTime}</li>
 						<li class="divider"></li>
 						<li >
-							<a  href="/HelloWeb/web/loginOut" style="color:red; font-weight:600" class="text-center">登出</a>
+							<a  href="/web/loginOut" style="color:red; font-weight:600" class="text-center">登出</a>
 						</li>
 					</ul>
 				</li>
