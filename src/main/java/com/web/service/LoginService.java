@@ -48,10 +48,9 @@ public class LoginService {
 	 * @date 2016年7月9日 下午3:40:40
 	 */
 	public User checkLoginInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		if ("POST".equals(request.getMethod())) {
-			// manager = new CookieManager(request, response);
-			String cookieValue = manager.getCookieValue(COOKIE_NAME);
-			if (cookieValue == null || !checkCookieValue(cookieValue)) {
+		String cookieValue = manager.getCookieValue(COOKIE_NAME);
+		if (cookieValue == null || !checkCookieValue(cookieValue)) {
+			if ("POST".equals(request.getMethod())) {
 				if (checkRequestIsBlank(request)) {
 					msg = "帐号或密码不能为空";
 					return null;
@@ -61,10 +60,10 @@ public class LoginService {
 						userInfo(request);
 					}
 				}
+			} else {
+				user = null;
+				msg = "";
 			}
-		} else {
-			user = null;
-			msg = "";
 		}
 		return user;
 	}
@@ -73,7 +72,7 @@ public class LoginService {
 		String loginTime = DateUtils.formatDate(new Date(), "yyyy-MM-dd HH:mm:ss");// 获取当前时间
 		user.setIp(WebUtil.getClientIp(request));
 		user.setLoginTime(loginTime);
-		Map<String,String> map = IpInterface.getAddress(WebUtil.getClientIp(request));
+		Map<String, String> map = IpInterface.getAddress(WebUtil.getClientIp(request));
 		user.setAddress(map.get("area"));
 		user.setLocation(map.get("location"));
 	}
