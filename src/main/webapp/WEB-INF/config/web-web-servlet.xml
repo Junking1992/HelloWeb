@@ -26,6 +26,9 @@
 
 	<!-- 扩充了注解驱动，可以将请求参数绑定到控制器参数 -->
 	<mvc:annotation-driven />
+	
+	<!-- 默认跳转到首页 -->
+	<mvc:view-controller path="/" view-name="web/index"/>
 
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
