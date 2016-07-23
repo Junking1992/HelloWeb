@@ -56,25 +56,21 @@ public class LoginService {
 					return null;
 				} else {
 					checkUserNameAndPassWord(request);
-					if (user != null) {
-						userInfo(request);
-					}
 				}
 			} else {
 				user = null;
 				msg = "";
 			}
 		}
+		if (user != null) {
+			userInfo(request);
+		}
 		return user;
 	}
 
 	private void userInfo(HttpServletRequest request) {
 		String loginTime = DateUtils.formatDate(new Date(), "yyyy-MM-dd HH:mm:ss");// 获取当前时间
-		user.setIp(WebUtil.getClientIp(request));
 		user.setLoginTime(loginTime);
-		Map<String, String> map = IpInterface.getAddress(WebUtil.getClientIp(request));
-		user.setAddress(map.get("area"));
-		user.setLocation(map.get("location"));
 	}
 
 	/**
