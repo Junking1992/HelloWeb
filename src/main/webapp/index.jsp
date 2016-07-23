@@ -1,3 +1,3 @@
 <script>
-// document.location.href="web/index";
+	document.location.href="web/index";
 </script>
