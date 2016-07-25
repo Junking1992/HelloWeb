@@ -55,36 +55,32 @@
 </head>
 
 <body class="bodyBackground">
-	<div class="container vertical-center" >
-		<div class="row">
-			<div class="col-xs-4 col-md-offset-4 " style="margin-top: 50px">
-				<form method="post" action="/web/login">
-					<div class="page-header">
-					  <h1 class="text-center whiteFont h1Font" >Sign in to System</h1>
+	<div class="container">
+		<div
+			class="col-lg-4 col-lg-offset-4 col-sm-6 col-sm-offset-3 col-xs-8 col-xs-offset-2"
+			style="margin-top: 90px">
+			<form method="post" action="/web/login">
+				<div class="page-header">
+					<h1 class="text-center whiteFont h1Font">Sign in to System</h1>
+				</div>
+				<div class="panel-body ">
+					<p class="text-left whiteFont pFont">帐号</p>
+					<div class="input-group col-sm-12">
+						<input type="text" class="form-control alpha whiteFont"
+							placeholder="Username" name="userName" value="${userName}">
 					</div>
-						<div class="panel-body ">
-					   		<p class="text-left whiteFont pFont">帐号</p>
-					   		<div class="input-group col-sm-12">
-								<input type="text" class="form-control alpha whiteFont" placeholder="Username" name="userName" 
-
-value="${userName}">
-							</div><br/>
-					   		<p class="text-left whiteFont pFont">密码</p>
-							<div class="input-group col-sm-12">
-								<input type="password" class="form-control alpha whiteFont" placeholder="Password" name="passWord">
-							</div>
-							<div class="junMsg">
-								<span class="whiteFont">${msg}</span>
-							</div>
-							<button type="submit" class="btn btn-default btn-block pFont">
-						     	 登录
-						    </button>
-						</div>
-				</form>
-				<address style="margin-top:70px" class="text-center whiteFont">
-				  <strong>Copyright © 1992 - 2016 Junking. All Rights Reserved</strong><br>
-				</address>
-			</div>
+					<p class="text-left whiteFont pFont">密码</p>
+					<div class="input-group col-sm-12">
+						<input type="password" class="form-control alpha whiteFont"
+							placeholder="Password" name="passWord">
+					</div>
+					<div class="junMsg">
+						<span class="whiteFont">${msg}</span>
+					</div>
+					<button type="submit" class="btn btn-default btn-block pFont">
+						登录</button>
+				</div>
+			</form>
 		</div>
 	</div>
 </body>
