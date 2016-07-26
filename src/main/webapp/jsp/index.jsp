@@ -72,7 +72,7 @@
 								<div id="panel-1" class="panel-collapse collapse">
 									<div class="list-group">
 										<a href="/web/search" class="list-group-item"> S2 </a> <a
-											href="#" class="list-group-item">Dapibus ac facilisis in</a>
+											href="/web/files" class="list-group-item">FileSystem</a>
 										<a href="#" class="list-group-item">Morbi leo risus</a> <a
 											href="#" class="list-group-item">Porta ac consectetur ac</a>
 										<a href="#" class="list-group-item">Vestibulum at eros</a>

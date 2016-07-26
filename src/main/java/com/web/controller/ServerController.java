@@ -1,5 +1,6 @@
 package com.web.controller;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
@@ -9,25 +10,30 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.web.service.DeployService;
 import com.web.service.JsoupYeye;
 import com.web.service.ListEntry;
 
 @Controller
 public class ServerController {
-	
+
 	public String key;
-	
+
 	@Autowired
 	public JsoupYeye jsoupYeye;
 	
+	@Autowired
+	public DeployService deployService;
+	
 	@RequestMapping("/search")
-	public String search(HttpServletRequest request, HttpServletResponse response, HttpSession session){
+	public String search(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		try {
 			request.setAttribute("APPID", "SEARCH");
 			key = request.getParameter("key");
-			key = new String(key.getBytes("iso8859-1"),"utf-8");
+			key = new String(key.getBytes("iso8859-1"), "utf-8");
 			List<ListEntry> list = jsoupYeye.getList(key);
 			session.setAttribute("list", list);
 			session.setAttribute("all", jsoupYeye.getAllCount());
@@ -35,10 +41,19 @@ public class ServerController {
 			session.setAttribute("key", key);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
-		}finally{
-			return "search2";
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+		return "search2";
 	}
-	
+
+	@RequestMapping("/files/**")
+	public String files(HttpServletRequest request, HttpServletResponse response, ModelMap model) {
+		//"/web/files/1/2/3/4"
+		String url = request.getRequestURI();
+		String path = deployService.parseUri(url);
+		model.addAttribute("files", deployService.getAllFiles(path));
+		return "file_system";
+	}
 
 }

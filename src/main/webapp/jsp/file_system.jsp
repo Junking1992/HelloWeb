@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
+<%@ page import="java.util.List" %>
+<%
+	List<String> files = (List<String>)request.getAttribute("files");
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -60,10 +64,15 @@
 		<div class="row clearfix">
 			<div class="col-md-12 column">
 				<ol class="breadcrumb">
-					<li><a href="#">Home</a></li>
+					<li><a href="/web/files/e">Home</a></li>
 					<li><a href="#">2013</a></li>
 					<li class="active">十一月</li>
 				</ol>
+				<ul class="list-group">
+					<% for(String file : files){%>
+					<li class="list-group-item"><%= file%></li>
+					<% }%>
+				</ul>
 			</div>
 		</div>
 	</div>
