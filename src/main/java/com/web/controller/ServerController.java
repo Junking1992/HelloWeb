@@ -49,10 +49,10 @@ public class ServerController {
 
 	@RequestMapping("/files/**")
 	public String files(HttpServletRequest request, HttpServletResponse response, ModelMap model) {
-		//"/web/files/1/2/3/4"
 		String url = request.getRequestURI();
 		String path = deployService.parseUri(url);
 		model.addAttribute("files", deployService.getAllFiles(path));
+		deployService.getAllCrumb(path);
 		return "file_system";
 	}
 
