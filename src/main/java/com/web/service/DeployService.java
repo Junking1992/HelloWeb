@@ -41,7 +41,7 @@ public class DeployService {
 		}
 		for (File file : files.listFiles()) {
 			if (!file.isDirectory()) {
-				list.add("<span>" + file.getName() + "</span><button type='button' class='btn btn-danger btn-xs' style='float:right;' onclick='getFileName(this)' data-toggle='modal' data-target='#myModal'>删除文件</button>");
+				list.add("<span>" + file.getName() + "</span><span> -- " + file.length()/1024+ "KB</span><button type='button' class='btn btn-danger btn-xs' style='float:right;' onclick='getFileName(this)' data-toggle='modal' data-target='#myModal'>删除文件</button>");
 			}
 		}
 		return list;
@@ -68,7 +68,6 @@ public class DeployService {
 	}
 	
 	public boolean deleteFile(String path, String fileName) throws UnsupportedEncodingException{
-		//"E/20160714 桂林湿身游"
 		path = URLDecoder.decode(path, "UTF-8");
 		File file = new File(path.substring(0,1)+":"+path.substring(1)+"/"+fileName);
 		if(file.isFile()){
