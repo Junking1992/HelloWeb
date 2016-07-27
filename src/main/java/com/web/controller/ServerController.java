@@ -2,6 +2,7 @@ package com.web.controller;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -49,10 +50,14 @@ public class ServerController {
 
 	@RequestMapping("/files/**")
 	public String files(HttpServletRequest request, HttpServletResponse response, ModelMap model) {
-		String url = request.getRequestURI();
-		String path = deployService.parseUri(url);
-		model.addAttribute("files", deployService.getAllFiles(path));
-		deployService.getAllCrumb(path);
+		try {
+			String url = URLDecoder.decode(request.getRequestURI(), "UTF-8");
+			String path = deployService.parseUri(url);
+			model.addAttribute("files", deployService.getAllFiles(path));
+			model.addAttribute("crumbs", deployService.getAllCrumb(path));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 		return "file_system";
 	}
 

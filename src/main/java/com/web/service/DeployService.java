@@ -16,44 +16,61 @@ public class DeployService {
 			String path = uri.substring(1);
 			return path;
 		} else {
-			return null;
+			return "";
 		}
 	}
 
 	public List<String> getAllFiles(String path) {
 		List<String> list = new ArrayList<String>();
-		if (path == null) {
+		if (StringUtils.isBlank(path)) {
+			File[] files = File.listRoots();
+			for (File file : files) {
+				if (file.isDirectory()) {
+					list.add("<a href='/web/files/" + file.toString().substring(0, 1) + "'>" + file.toString().substring(0, 1) + " 盘</a>");
+				}
+			}
 			return list;
 		}
-		File file = new File(path.substring(0, 1) + ":" + path.substring(1));
-		for (File files : file.listFiles()) {
-			if (files.isDirectory()) {
-				list.add("<a href='/web/files/" + path + "/" + files.getName() + "'>" + files.getName() + "</a>");
+		File files = new File(path.substring(0, 1) + ":/" + path.substring(1));
+		for (File file : files.listFiles()) {
+			if (file.isDirectory()) {
+				list.add("<a href='/web/files/" + path + "/" + file.getName() + "'>" + file.getName() + "</a>");
 			}
 		}
-		for (File files : file.listFiles()) {
-			if (!files.isDirectory()) {
-				list.add(files.getName());
+		for (File file : files.listFiles()) {
+			if (!file.isDirectory()) {
+				list.add("<span>" + file.getName() + "</span><button type='button' class='btn btn-danger btn-xs' style='float:right;' onclick='onDelete(this)' data-toggle='modal' data-target='#myModal'>删除文件</button>");
+			}
+		}
+		return list;
+	}
+
+	public List<String> getAllCrumb(String path) {
+		List<String> list = new ArrayList<String>();
+		if (StringUtils.isBlank(path)) {
+			list.add("<li class='active'>本地磁盘</a></li>");
+			return list;
+		}
+		String[] crumbs = path.split("/");
+		String url = "/web/files";
+		list.add("<li><a href='" + url + "'>本地磁盘</a></li>");
+		for (int i = 0; i < crumbs.length; i++) {
+			if (i < crumbs.length - 1) {
+				url += "/" + crumbs[i];
+				list.add("<li><a href='" + url + "'>" + crumbs[i] + "</a></li>");
+			} else {
+				list.add("<li class='active'>" + crumbs[i] + "</a></li>");
 			}
 		}
 		return list;
 	}
 	
-	public List<String> getAllCrumb(String path){
-		List<String> list = new ArrayList<String>();
-		if (path == null) {
-			return list;
-		}
-		String[] crumbs = path.split("/");
-		String url = "/web/files";
-		for(int i = 0; i < crumbs.length; i++){
-			if(i<crumbs.length-1){
-				url += "/" + crumbs[i];
-				list.add("<li><a href='" + url + "'>" + crumbs[i] + "</a></li>");
-			}else{
-				list.add("");
+	public static void main(String[] args) {
+		File files = new File("D:");
+		for (File file : files.listFiles()) {
+			System.out.println(file);
+			if (file.isDirectory()) {
 			}
 		}
-		return list;
 	}
 }

@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
-<%@ page import="java.util.List" %>
+<%@ page import="java.util.List"%>
 <%
 	List<String> files = (List<String>)request.getAttribute("files");
+	List<String> crumbs = (List<String>)request.getAttribute("crumbs");
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -64,17 +65,50 @@
 		<div class="row clearfix">
 			<div class="col-md-12 column">
 				<ol class="breadcrumb">
-					<li><a href="/web/files/e">Home</a></li>
-					<li><a href="#">2013</a></li>
-					<li class="active">十一月</li>
+					<%
+						for(String crumb : crumbs){
+																									out.println(crumb);
+																								}
+					%>
 				</ol>
 				<ul class="list-group">
-					<% for(String file : files){%>
-					<li class="list-group-item"><%= file%></li>
-					<% }%>
+					<%
+						for(String file : files){
+					%>
+					<li class="list-group-item"><%=file%></li>
+					<%
+						}
+					%>
 				</ul>
 			</div>
 		</div>
 	</div>
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="myModalLabel" style="color:red;"></h4>
+				</div>
+				<div class="modal-body">
+					<form role="form">
+						<input type="text" class="form-control" id="name"
+							placeholder="请输入口令进行删除操作"> 
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+					</button>
+					<button type="button" class="btn btn-primary">提交更改</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
+<script type="text/javascript">
+	function onDelete(button) {
+		var fileName = button.parentNode.firstChild.innerHTML;
+		$("#myModalLabel").html("确定要删除:" + fileName + "?");
+	}
+</script>
 </html>
