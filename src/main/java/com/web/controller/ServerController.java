@@ -3,7 +3,6 @@ package com.web.controller;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,14 +14,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.web.common.MD5Encrypt;
 import com.web.service.DeployService;
 import com.web.service.JsoupYeye;
 import com.web.service.ListEntry;
+import com.web.service.UserInfo;
 
 @Controller
 public class ServerController {
 
 	public String key;
+	
+	public String msg;
+	
+	public String flag;
 
 	@Autowired
 	public JsoupYeye jsoupYeye;
@@ -34,9 +39,12 @@ public class ServerController {
 	public String search(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		try {
 			request.setAttribute("APPID", "SEARCH");
-			key = request.getParameter("key");
-			key = new String(key.getBytes("iso8859-1"), "utf-8");
-			List<ListEntry> list = jsoupYeye.getList(key);
+//			key = request.getParameter("key");
+//			key = new String(key.getBytes("iso8859-1"), "utf-8");
+			List<ListEntry> list = null;
+			if(key != null){
+				list = jsoupYeye.getList(key);
+			}
 			session.setAttribute("list", list);
 			session.setAttribute("all", jsoupYeye.getAllCount());
 			session.setAttribute("currentPage", 1);
@@ -57,23 +65,35 @@ public class ServerController {
 			model.addAttribute("files", deployService.getAllFiles(path));
 			model.addAttribute("crumbs", deployService.getAllCrumb(path));
 			model.addAttribute("path", path);
+			model.addAttribute("msg", msg);
+			model.addAttribute("flag", flag);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
+		msg = null;
+		flag = null;
 		return "file_system";
 	}
 	
 	@RequestMapping("/deleteFile/**")
-	public String deleteFile(String deleteKey, String path, String fileName, ModelMap model){
+	public String deleteFile(String deleteKey, String path, String fileName){
 		try {
-			boolean flag = deployService.deleteFile(path, fileName);
-			if(flag){
-				model.addAttribute("msg", "删除成功！");
+			if(!UserInfo.KEY.equals(MD5Encrypt.md5Encode(deleteKey,32))){
+				flag = "false";
+				msg = "口令错误！！";
+				return "redirect:/web/files/"+path;
+			}
+			boolean isDelete = deployService.deleteFile(path, fileName);
+			if(isDelete){
+				flag = isDelete+"";
+				msg = "删除成功！";
 			}else{
-				model.addAttribute("msg", "删除失败！");
+				flag = isDelete+"";
+				msg = "删除失败！";
 			}
 		} catch (UnsupportedEncodingException e) {
-			model.addAttribute("msg", "删除失败！");
+			e.printStackTrace();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return "redirect:/web/files/"+path;
