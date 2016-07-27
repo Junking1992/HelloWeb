@@ -4,6 +4,7 @@
 <%
 	List<String> files = (List<String>)request.getAttribute("files");
 	List<String> crumbs = (List<String>)request.getAttribute("crumbs");
+	String path = (String) request.getAttribute("path");
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -67,8 +68,8 @@
 				<ol class="breadcrumb">
 					<%
 						for(String crumb : crumbs){
-																									out.println(crumb);
-																								}
+																															out.println(crumb);
+																														}
 					%>
 				</ol>
 				<ul class="list-group">
@@ -88,27 +89,31 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h4 class="modal-title" id="myModalLabel" style="color:red;"></h4>
+					<h4 class="modal-title" id="myModalLabel" style="color: red;"></h4>
 				</div>
-				<div class="modal-body">
-					<form role="form">
-						<input type="text" class="form-control" id="name"
-							placeholder="请输入口令进行删除操作"> 
-					</form>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">关闭
-					</button>
-					<button type="button" class="btn btn-primary">提交更改</button>
-				</div>
+				<form role="form" method="post" action="/web/deleteFile">
+					<div class="modal-body">
+						<input type="text" class="form-control" id="deleteKey"
+							name="deleteKey" placeholder="请输入口令进行删除操作"> <input
+							type="hidden" class="form-control" id="path" name="path"> <input type="hidden"
+							class="form-control" id="fileName" name="fileName">
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+						</button>
+						<button type="submit" class="btn btn-primary">提交更改</button>
+					</div>
+				</form>
 			</div>
 		</div>
 	</div>
 </body>
 <script type="text/javascript">
-	function onDelete(button) {
+	function getFileName(button) {
 		var fileName = button.parentNode.firstChild.innerHTML;
 		$("#myModalLabel").html("确定要删除:" + fileName + "?");
+		$("#path").val(encodeURI("<%=path%>"));
+		$("#fileName").val(fileName);
 	}
 </script>
 </html>

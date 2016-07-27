@@ -39,7 +39,7 @@ public class DeployService {
 		}
 		for (File file : files.listFiles()) {
 			if (!file.isDirectory()) {
-				list.add("<span>" + file.getName() + "</span><button type='button' class='btn btn-danger btn-xs' style='float:right;' onclick='onDelete(this)' data-toggle='modal' data-target='#myModal'>删除文件</button>");
+				list.add("<span>" + file.getName() + "</span><button type='button' class='btn btn-danger btn-xs' style='float:right;' onclick='getFileName(this)' data-toggle='modal' data-target='#myModal'>删除文件</button>");
 			}
 		}
 		return list;
@@ -65,6 +65,11 @@ public class DeployService {
 		return list;
 	}
 	
+	public boolean deleteFile(String path, String name){
+		
+		return false;
+	}
+	
 	public static void main(String[] args) {
 		File files = new File("D:");
 		for (File file : files.listFiles()) {
@@ -73,4 +78,5 @@ public class DeployService {
 			}
 		}
 	}
+	
 }

@@ -3,6 +3,7 @@ package com.web.controller;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -49,16 +50,23 @@ public class ServerController {
 	}
 
 	@RequestMapping("/files/**")
-	public String files(HttpServletRequest request, HttpServletResponse response, ModelMap model) {
+	public String files(HttpServletRequest request, ModelMap model) {
 		try {
 			String url = URLDecoder.decode(request.getRequestURI(), "UTF-8");
 			String path = deployService.parseUri(url);
 			model.addAttribute("files", deployService.getAllFiles(path));
 			model.addAttribute("crumbs", deployService.getAllCrumb(path));
+			model.addAttribute("path", path);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
 		return "file_system";
+	}
+	
+	@RequestMapping("/deleteFile/**")
+	public String deleteFile(String deleteKey, String path, String fileName, ModelMap model) throws UnsupportedEncodingException {
+		deployService.deleteFile(path, fileName);
+		return "redirect:/web/files/"+path;
 	}
 
 }
