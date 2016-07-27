@@ -5,6 +5,9 @@
 	List<String> files = (List<String>)request.getAttribute("files");
 	List<String> crumbs = (List<String>)request.getAttribute("crumbs");
 	String path = (String) request.getAttribute("path");
+	String msg = (String) request.getAttribute("msg");
+	out.println("msg");
+	out.println(msg);
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -68,10 +71,16 @@
 				<ol class="breadcrumb">
 					<%
 						for(String crumb : crumbs){
-																															out.println(crumb);
-																														}
+							out.println(crumb);
+						}
 					%>
 				</ol>
+				<div id="success" class="alert alert-success">
+					<a href="#" class="close" data-dismiss="alert">&times;</a> <strong>成功！</strong>结果是成功的。
+				</div>
+				<div id="danger" class="alert alert-danger">
+					<a href="#" class="close" data-dismiss="alert">&times;</a> <strong>警告！</strong>您的网络连接有问题。
+				</div>
 				<ul class="list-group">
 					<%
 						for(String file : files){
@@ -95,8 +104,9 @@
 					<div class="modal-body">
 						<input type="text" class="form-control" id="deleteKey"
 							name="deleteKey" placeholder="请输入口令进行删除操作"> <input
-							type="hidden" class="form-control" id="path" name="path"> <input type="hidden"
-							class="form-control" id="fileName" name="fileName">
+							type="hidden" class="form-control" id="path" name="path">
+						<input type="hidden" class="form-control" id="fileName"
+							name="fileName">
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">关闭
@@ -109,6 +119,9 @@
 	</div>
 </body>
 <script type="text/javascript">
+	$(".alert").alert('close'); 
+	var msg = "<%=msg%>";
+	alert(msg);
 	function getFileName(button) {
 		var fileName = button.parentNode.firstChild.innerHTML;
 		$("#myModalLabel").html("确定要删除:" + fileName + "?");

@@ -64,8 +64,18 @@ public class ServerController {
 	}
 	
 	@RequestMapping("/deleteFile/**")
-	public String deleteFile(String deleteKey, String path, String fileName, ModelMap model) throws UnsupportedEncodingException {
-		deployService.deleteFile(path, fileName);
+	public String deleteFile(String deleteKey, String path, String fileName, ModelMap model){
+		try {
+			boolean flag = deployService.deleteFile(path, fileName);
+			if(flag){
+				model.addAttribute("msg", "删除成功！");
+			}else{
+				model.addAttribute("msg", "删除失败！");
+			}
+		} catch (UnsupportedEncodingException e) {
+			model.addAttribute("msg", "删除失败！");
+			e.printStackTrace();
+		}
 		return "redirect:/web/files/"+path;
 	}
 

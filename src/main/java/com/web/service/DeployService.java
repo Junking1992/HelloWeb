@@ -1,6 +1,8 @@
 package com.web.service;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,8 +67,13 @@ public class DeployService {
 		return list;
 	}
 	
-	public boolean deleteFile(String path, String name){
-		
+	public boolean deleteFile(String path, String fileName) throws UnsupportedEncodingException{
+		//"E/20160714 桂林湿身游"
+		path = URLDecoder.decode(path, "UTF-8");
+		File file = new File(path.substring(0,1)+":"+path.substring(1)+"/"+fileName);
+		if(file.isFile()){
+			return file.delete();
+		}
 		return false;
 	}
 	
