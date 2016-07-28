@@ -1,6 +1,7 @@
 package com.web.controller;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.List;
@@ -61,7 +62,7 @@ public class ServerController {
 	public String files(HttpServletRequest request, ModelMap model) {
 		try {
 			String url = URLDecoder.decode(request.getRequestURI(), "UTF-8");
-			String path = deployService.parseUri(url);
+			String path = deployService.parseUri(url,"files");
 			model.addAttribute("files", deployService.getAllFiles(path));
 			model.addAttribute("crumbs", deployService.getAllCrumb(path));
 			model.addAttribute("path", path);
@@ -97,6 +98,30 @@ public class ServerController {
 			e.printStackTrace();
 		}
 		return "redirect:/web/files/"+path;
+	}
+	
+	@RequestMapping("/showImage/**")
+	public void showImage(HttpServletRequest request, HttpServletResponse response, ModelMap model) {
+		OutputStream outStream = null;
+		try {
+			String url = URLDecoder.decode(request.getRequestURI(), "UTF-8");
+			String imagePath = deployService.parseUri(url, "showImage");
+			byte[] image = deployService.showImage(imagePath);
+			response.setContentType("image/jpeg"); // 设置返回的文件类型
+			outStream = response.getOutputStream();
+			outStream.write(image); // 输出数据
+			outStream.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally{
+			if(outStream != null){
+				try {
+					outStream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 }

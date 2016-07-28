@@ -1,6 +1,7 @@
 package com.web.service;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
@@ -12,8 +13,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class DeployService {
 
-	public String parseUri(String uri) {
-		uri = uri.substring(uri.indexOf("files") + 5);
+	public String parseUri(String uri, String word) {
+		uri = uri.substring(uri.indexOf(word) + word.length());
 		if (StringUtils.isNotBlank(uri)) {
 			String path = uri.substring(1);
 			return path;
@@ -41,10 +42,24 @@ public class DeployService {
 		}
 		for (File file : files.listFiles()) {
 			if (!file.isDirectory()) {
-				list.add("<span>" + file.getName() + "</span><span> -- " + file.length()/1024+ "KB</span><button type='button' class='btn btn-danger btn-xs' style='float:right;' onclick='getFileName(this)' data-toggle='modal' data-target='#myModal'>删除文件</button>");
+				if (isImage(file)) {
+					list.add("<span>" + file.getName() + "</span><span> -- " + file.length() / 1024 + "KB</span><button type='button' class='btn btn-danger btn-xs' style='float:right;' onclick='getFileName(this)' data-toggle='modal' data-target='#myModal'>删除文件</button><button type='button' class='btn btn-success btn-xs' style='float:right;margin-right: 20px;' onclick='showImage(this)' data-toggle='modal' data-target='#imagePage'>打开</button>");
+				} else {
+					list.add("<span>" + file.getName() + "</span><span> -- " + file.length() / 1024 + "KB</span><button type='button' class='btn btn-danger btn-xs' style='float:right;' onclick='getFileName(this)' data-toggle='modal' data-target='#myModal'>删除文件</button>");
+				}
 			}
 		}
 		return list;
+	}
+
+	private boolean isImage(File file) {
+		String[] imageTypes = UserInfo.IMAGE_TYPE.split(",");
+		for (String type : imageTypes) {
+			if (file.getName().toUpperCase().endsWith(type)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public List<String> getAllCrumb(String path) {
@@ -66,16 +81,16 @@ public class DeployService {
 		}
 		return list;
 	}
-	
-	public boolean deleteFile(String path, String fileName) throws UnsupportedEncodingException{
+
+	public boolean deleteFile(String path, String fileName) throws UnsupportedEncodingException {
 		path = URLDecoder.decode(path, "UTF-8");
-		File file = new File(path.substring(0,1)+":"+path.substring(1)+"/"+fileName);
-		if(file.isFile()){
+		File file = new File(path.substring(0, 1) + ":" + path.substring(1) + "/" + fileName);
+		if (file.isFile()) {
 			return file.delete();
 		}
 		return false;
 	}
-	
+
 	public static void main(String[] args) {
 		File files = new File("D:");
 		for (File file : files.listFiles()) {
@@ -84,5 +99,18 @@ public class DeployService {
 			}
 		}
 	}
-	
+
+	public byte[] showImage(String imagePath) {
+		FileInputStream fileIs = null;
+		try {
+			fileIs = new FileInputStream(imagePath.substring(0, 1) + ":" + imagePath.substring(1));
+			int i = fileIs.available(); // 得到文件大小
+			byte[] data = new byte[i];
+			fileIs.read(data); // 读数据
+			return data;
+		} catch (Exception e) {
+		}
+		return null;
+	}
+
 }

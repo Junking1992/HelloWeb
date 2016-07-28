@@ -102,9 +102,24 @@
 			</div>
 		</div>
 	</div>
+	<div class="modal fade" id="imagePage" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal"
+									aria-hidden="true">×</button>
+								<h5 class="modal-title" id="imageViewTitle"></h5>
+							</div>
+							<div class="modal-body">
+								<img src="" class="img-responsive" alt="Cinque Terre" id="imageView">
+							</div>
+						</div>
+					</div>
+				</div>
 </body>
 <script type="text/javascript">
 	var flag = <%=flag%>;
+	var path = "<%=path%>";
 	if(flag != null){
 		if(flag){
 			$("#danger").alert("close");
@@ -117,7 +132,6 @@
 	
 	function getFileName(button) {
 		var fileName = button.parentNode.firstChild.innerHTML;
-		var path = "<%=path%>";
 		var filePath = path.substr(0,1)+":"+path.substr(1)+"/"+fileName;
 		$("#myModalLabel").html("确定要删除:" + filePath + "?");
 		$("#path").val(encodeURI(path));
@@ -137,5 +151,11 @@
 		$("#error").css("display","none");
 	}
 	
+	function showImage(image){
+		var imageName = image.parentNode.firstChild.innerHTML;
+		$("#imageViewTitle").html(imageName);
+		var imageUrl = "/web/showImage/" + path + "/" + imageName;
+		$("#imageView").attr("src",imageUrl);
+	}
 </script>
 </html>
