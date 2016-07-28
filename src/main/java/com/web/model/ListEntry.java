@@ -1,4 +1,4 @@
-package com.web.service;
+package com.web.model;
 
 public class ListEntry {
 

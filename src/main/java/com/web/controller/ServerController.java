@@ -16,9 +16,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.web.common.MD5Encrypt;
+import com.web.model.ListEntry;
 import com.web.service.DeployService;
 import com.web.service.JsoupYeye;
-import com.web.service.ListEntry;
 import com.web.service.UserInfo;
 
 @Controller
@@ -37,7 +37,7 @@ public class ServerController {
 	public DeployService deployService;
 	
 	@RequestMapping("/search")
-	public String search(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	public String search(HttpServletRequest request, HttpServletResponse response, ModelMap model) {
 		try {
 			request.setAttribute("APPID", "SEARCH");
 //			key = request.getParameter("key");
@@ -46,10 +46,10 @@ public class ServerController {
 			if(key != null){
 				list = jsoupYeye.getList(key);
 			}
-			session.setAttribute("list", list);
-			session.setAttribute("all", jsoupYeye.getAllCount());
-			session.setAttribute("currentPage", 1);
-			session.setAttribute("key", key);
+			model.addAttribute("list", list);
+			model.addAttribute("all", jsoupYeye.getAllCount());
+			model.addAttribute("currentPage", 1);
+			model.addAttribute("key", key);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

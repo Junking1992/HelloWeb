@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
-<%@ page import="com.web.service.ListEntry"%>
+<%@ page import="com.web.model.ListEntry"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.util.List"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -14,7 +14,8 @@
 <html>
 <head>
 <title>WebApp</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
 	http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <!-- 新 Bootstrap 核心 CSS 文件 -->
 <link
@@ -41,35 +42,17 @@
 	font-family: 'Carter One', cursive;
 	font-size: 30px;
 }
-
-.userMmargin {
-	margin-right: 20px;
-}
-
-.leftMenu .panel-heading {
-	font-size: 14px;
-	padding-left: 20px;
-	height: 36px;
-	line-height: 36px;
-	position: relative;
-	cursor: pointer;
-}
-/*转成手形图标*/
-.leftMenu .panel-heading span {
-	position: absolute;
-	right: 10px;
-	top: 12px;
-}
-
-.data {
-	/* 	width: 20%; */
-	/* 	height: 100px; */
-	
-}
-
-li {
-	float: left;
-	list-style: none;
+.Absolute-Center.is-Image {  
+  height: auto;  
+}  
+  
+.Absolute-Center.is-Image img {   
+  width: 100%;  
+  height: auto;  
+} 
+img{
+	max-height: 100%; 
+	width: auto;
 }
 </style>
 </head>
@@ -80,27 +63,15 @@ li {
 	<div class="container">
 		<div class="row clearfix">
 			<div class="col-md-12 column">
-				<%
-					if (list != null) {
-						out.print("当前第" + currentPage + "页，共" + pages + "页,");
-						out.print("<a href='/jun/page?where=" + ((currentPage - 1) < 1 ? 1 : (currentPage - 1)) + "'>上一页</a>");
-						out.print("<a href='/jun/page?where=" + ((currentPage + 1) > pages ? pages : (currentPage + 1)) + "'>下一页</a>");
-						out.print("<input type='text' id='go' style='width:30px'/>");
-						out.print("<input type='button' value='GO' onclick='jump()'/>");
-						out.print("<ul>");
-						for (ListEntry entry : list) {
-							out.print("<li>");
-							out.print("<div class='data'>");
-							out.print("<a href='" + entry.getUrl() + "' title='" + entry.getTitle() + "' style='font-size:5px;' target='_blank'>" + entry.getTitle() + "</a>");
-							out.print("<br/><a href='/jun/goInfo?url=" + entry.getUrl() + "' title='" + entry.getTitle() + "' target='_blank'><img src='" + entry.getImages() + "' alt='" + entry.getTitle() + "' height='400px'></a>");
-							out.print("</div>");
-							out.print("</li>");
-						}
-						out.print("</ul><br/>");
-					}
-				%>
-
-
+				<div class="col-md-3 column" >
+					<div class="panel panel-default">
+						<div class="panel-heading">Panel title1</div>
+						<div class="panel-body" style="height: 200px;">
+							<img src="/web/showImage/E/20160714 桂林湿身游/DSC_8812.JPG"
+								class="img-thumbnail center-block" alt="Cinque Terre" id="imageView">
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

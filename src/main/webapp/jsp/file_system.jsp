@@ -111,7 +111,7 @@
 								<h5 class="modal-title" id="imageViewTitle"></h5>
 							</div>
 							<div class="modal-body">
-								<img src="" class="img-responsive" alt="Cinque Terre" id="imageView">
+								<img src="" class="img-thumbnail img-responsive" alt="Cinque Terre" id="imageView">
 							</div>
 						</div>
 					</div>

@@ -10,6 +10,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
+import com.web.model.ListEntry;
+
 @Service
 public class JsoupYeye {
 
