@@ -37,18 +37,21 @@ public class ServerController {
 	public DeployService deployService;
 	
 	@RequestMapping("/search")
-	public String search(HttpServletRequest request, HttpServletResponse response, ModelMap model) {
+	public String search(String key, String page, ModelMap model) {
 		try {
-			request.setAttribute("APPID", "SEARCH");
-//			key = request.getParameter("key");
-//			key = new String(key.getBytes("iso8859-1"), "utf-8");
-			List<ListEntry> list = null;
+			List<ListEntry> datas = null;
+			page = page == null ? "1" : page;
 			if(key != null){
-				list = jsoupYeye.getList(key);
+				datas = jsoupYeye.getList(key, Integer.parseInt(page));
 			}
-			model.addAttribute("list", list);
-			model.addAttribute("all", jsoupYeye.getAllCount());
-			model.addAttribute("currentPage", 1);
+			int allCount = jsoupYeye.getAllCount();
+			if(allCount > 0){
+				model.addAttribute("pagination", jsoupYeye.getPagination(allCount, Integer.parseInt(page)));
+			}
+			model.addAttribute("APPID", "SEARCH");
+//			model.addAttribute("datas", list);
+			model.addAttribute("allCount", allCount);
+			model.addAttribute("currentPage", Integer.parseInt(page));
 			model.addAttribute("key", key);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();

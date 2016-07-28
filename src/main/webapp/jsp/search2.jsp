@@ -42,16 +42,18 @@
 	font-family: 'Carter One', cursive;
 	font-size: 30px;
 }
-.Absolute-Center.is-Image {  
-  height: auto;  
-}  
-  
-.Absolute-Center.is-Image img {   
-  width: 100%;  
-  height: auto;  
-} 
-img{
-	max-height: 100%; 
+
+.Absolute-Center.is-Image {
+	height: auto;
+}
+
+.Absolute-Center.is-Image img {
+	width: 100%;
+	height: auto;
+}
+
+img {
+	max-height: 100%;
 	width: auto;
 }
 </style>
@@ -63,16 +65,34 @@ img{
 	<div class="container">
 		<div class="row clearfix">
 			<div class="col-md-12 column">
-				<div class="col-md-3 column" >
+				<%
+				for(int i = 0; i < 10; i++){
+				%>
+				<div class="col-md-3 column">
 					<div class="panel panel-default">
 						<div class="panel-heading">Panel title1</div>
 						<div class="panel-body" style="height: 200px;">
 							<img src="/web/showImage/E/20160714 桂林湿身游/DSC_8812.JPG"
-								class="img-thumbnail center-block" alt="Cinque Terre" id="imageView">
+								class="img-thumbnail center-block" alt="Cinque Terre"
+								id="imageView">
 						</div>
 					</div>
 				</div>
+				<%
+				}
+				%>
 			</div>
+			<nav style="text-align: center">
+			<ul class="pagination">
+				<li><a href="#">Prev</a></li>
+				<li><a href="#">1</a></li>
+				<li><a href="#">2</a></li>
+				<li><a href="#">3</a></li>
+				<li><a href="#">4</a></li>
+				<li><a href="#">5</a></li>
+				<li><a href="#">Next</a></li>
+			</ul>
+			</nav>
 		</div>
 	</div>
 </body>

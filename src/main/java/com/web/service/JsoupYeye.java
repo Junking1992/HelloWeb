@@ -23,10 +23,8 @@ public class JsoupYeye {
 
 	private int all = 0;
 
-	private String  urlKey = "";
-	
 	public Document parseUrl(String url) throws IOException {
-		return Jsoup.connect(url).get();
+		return Jsoup.connect(url).timeout(10000).get();
 	}
 
 	public void parseListElement(Document doc) {
@@ -34,7 +32,7 @@ public class JsoupYeye {
 		Elements list = content.getElementsByClass("lit");
 		Elements pagebox = content.getElementsByClass("pagebox");
 
-		if(pagebox.select("span").first() != null){
+		if (pagebox.select("span").first() != null) {
 			// 全部数量
 			String allStr = pagebox.select("span").first().html();
 			all = Integer.parseInt(allStr.substring(allStr.indexOf("共") + 1, allStr.indexOf("条")));
@@ -58,32 +56,26 @@ public class JsoupYeye {
 	public String parseInfoPage(String url) throws IOException {
 		String firstHtml = parseUrl(url).getElementsByClass("tongyi").select("h4").first().html();
 		String finalUrl = "";
-		if(firstHtml.contains("jj")){
+		if (firstHtml.contains("jj")) {
 			finalUrl = parseUrl(url).getElementsByClass("tongyi").select("a").get(1).attr("href");
-		}else{
+		} else {
 			finalUrl = parseUrl(url).getElementsByClass("tongyi").select("a").get(0).attr("href");
 		}
 		return this.url + finalUrl;
 	}
-	
-	public int getAllCount(){
+
+	public int getAllCount() {
 		return all;
 	}
-	
-	public String getUrlKey(){
-		return urlKey;
+
+	public List<ListEntry> getList(String key, int page) throws IOException {
+		key = java.net.URLEncoder.encode(key, "GBK");
+		parseListElement(parseUrl(searchUrl + key + "&page=" + page));
+		return listEntrys;
 	}
 
-	public List<ListEntry> getList(String key) throws IOException {
-		key = java.net.URLEncoder.encode(key, "GBK");
-		urlKey = searchUrl + key;
-		parseListElement(parseUrl(urlKey));
-		return listEntrys;
+	public List<String> getPagination(int allCount, int parseInt) {
+		return null;
 	}
-	
-	public List<ListEntry> getList(String urlKey, int page) throws IOException {
-		parseListElement(parseUrl(urlKey+"&page="+page));
-		return listEntrys;
-	}
-	
+
 }
