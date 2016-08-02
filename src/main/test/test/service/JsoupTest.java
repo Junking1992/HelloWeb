@@ -4,21 +4,17 @@ import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.springframework.stereotype.Service;
 
-@Service
 public class JsoupTest {
-
+	
 	private String url = "http://www.xiuren.org";
 
 	public Document parseUrl(String url) throws IOException {
@@ -48,7 +44,7 @@ public class JsoupTest {
 		Elements elements = document.getElementsByClass("post").get(0).getElementsByTag("a");
 		List<String> hrefs = new ArrayList<String>();
 		for (Element element : elements) {
-			if (StringUtils.isBlank(element.attr("target"))) {
+			if ("".equals(element.attr("target"))) {
 				hrefs.add(element.attr("href"));
 			}
 		}
@@ -67,7 +63,7 @@ public class JsoupTest {
 				throw new Exception("磁盘小于100MB!");
 			}
 			File pathFile = new File(path);
-			if(!pathFile.exists()){
+			if (!pathFile.exists()) {
 				pathFile.mkdirs();
 			}
 			File file = new File(path + fileName);
@@ -106,24 +102,33 @@ public class JsoupTest {
 		}
 	}
 
+	public void startDownload(String path) throws Exception {
+		List<String> menuHrefs = getMenuHref(parseUrl(url));
+		String menuFile, mainFile;
+		int menuNum = 1;
+		for (String menuHref : menuHrefs) {
+			menuFile = path + menuHref.substring(menuHref.lastIndexOf("/") + 1, menuHref.lastIndexOf(".")) + "/";
+			List<String> mainHrefs = getMainHref(parseUrl(menuHref));
+			int mainNum = 1;
+			for (String mainHref : mainHrefs) {
+				mainFile = menuFile + mainHref.substring(mainHref.lastIndexOf("/") + 1, mainHref.lastIndexOf(".")) + "/";
+				List<String> imageHrefs = getImageHref(parseUrl(mainHref));
+				int imageNum = 1;
+				for (String imageHref : imageHrefs) {
+					downloadImage(imageHref, mainFile);
+					System.out.println("目录进度:" + menuNum + "/" + menuHrefs.size() + " 主页进度:" + mainNum + "/" + mainHrefs.size() + " 下载进度:" + imageNum + "/" + imageHrefs.size());
+					imageNum++;
+				}
+				mainNum++;
+			}
+			menuNum++;
+		}
+	}
+
 	public static void main(String[] args) throws Exception {
 		String path = "E:/SSH/data/";
 		JsoupTest jsoupTest = new JsoupTest();
-		List<String> menuHrefs = jsoupTest.getMenuHref(jsoupTest.parseUrl(jsoupTest.url));
-		String menuFile, mainFile;
-		for (String menuHref : menuHrefs) {
-			menuFile = path + menuHref.substring(menuHref.lastIndexOf("/")+1, menuHref.lastIndexOf(".")) + "/";
-			List<String> mainHrefs = jsoupTest.getMainHref(jsoupTest.parseUrl(menuHref));
-			for (String mainHref : mainHrefs) {
-				mainFile = menuFile + mainHref.substring(mainHref.lastIndexOf("/")+1, mainHref.lastIndexOf(".")) + "/";
-				List<String> imageHrefs = jsoupTest.getImageHref(jsoupTest.parseUrl(mainHref));
-				for (String imageHref : imageHrefs) {
-					jsoupTest.downloadImage(imageHref, mainFile);
-					System.out.println();
-				}
-			}
-		}
-
+		jsoupTest.startDownload(path);
 	}
 
 }
