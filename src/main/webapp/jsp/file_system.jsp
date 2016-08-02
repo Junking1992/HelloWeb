@@ -111,7 +111,7 @@
 								<h5 class="modal-title" id="imageViewTitle"></h5>
 							</div>
 							<div class="modal-body">
-								<img src="" class="img-thumbnail img-responsive center-block" alt="Cinque Terre" id="imageView">
+								<img src="" class="img-thumbnail img-responsive center-block" alt="Cinque Terre" id="imageView" onclick="nextImage()">
 							</div>
 						</div>
 					</div>
@@ -120,6 +120,7 @@
 <script type="text/javascript">
 	var flag = <%=flag%>;
 	var path = "<%=path%>";
+	var nextLine;
 	if(flag != null){
 		if(flag){
 			$("#danger").alert("close");
@@ -152,10 +153,16 @@
 	}
 	
 	function showImage(image){
+		//下一行元素
+		nextLine = image.parentNode.nextSibling.nextSibling.lastChild;
 		var imageName = image.parentNode.firstChild.innerHTML;
 		$("#imageViewTitle").html(imageName);
 		var imageUrl = "/web/showImage/" + path + "/" + imageName;
 		$("#imageView").attr("src",imageUrl);
+	}
+	
+	function nextImage(){
+		showImage(nextLine);
 	}
 </script>
 </html>
