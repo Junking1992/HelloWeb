@@ -74,8 +74,22 @@ public class JsoupYeye {
 		return listEntrys;
 	}
 
-	public List<String> getPagination(int allCount, int parseInt) {
-		return null;
+	public List<String> getPagination(int allCount, int currentPage) {
+		List<String> pagination = new ArrayList<String>();
+		if (allCount < 8) {
+			for (int i = 1; i <= allCount; i++) {
+				if (currentPage == i) {
+					pagination.add("<li>" + i + "</li>");
+				} else {
+					pagination.add("<li><a href='#'>" + i + "</a></li>");
+				}
+			}
+		} else {
+			if((currentPage-2)>0){
+				
+			}
+		}
+		return pagination;
 	}
 
 }
