@@ -92,4 +92,9 @@ public class JsoupYeye {
 		return pagination;
 	}
 
+	public void end() {
+		listEntrys = null;
+		all = 0;
+	}
+
 }

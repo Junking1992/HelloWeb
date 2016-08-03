@@ -4,11 +4,11 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -43,13 +43,16 @@ public class ServerController {
 			page = page == null ? "1" : page;
 			if(key != null){
 				datas = jsoupYeye.getList(key, Integer.parseInt(page));
+			}else{
+				datas = new ArrayList<ListEntry>();
 			}
 			int allCount = jsoupYeye.getAllCount();
 			if(allCount > 0){
 				model.addAttribute("pagination", jsoupYeye.getPagination(allCount, Integer.parseInt(page)));
 			}
+			jsoupYeye.end();
 			model.addAttribute("APPID", "SEARCH");
-//			model.addAttribute("datas", list);
+			model.addAttribute("datas", datas);
 			model.addAttribute("allCount", allCount);
 			model.addAttribute("currentPage", Integer.parseInt(page));
 			model.addAttribute("key", key);

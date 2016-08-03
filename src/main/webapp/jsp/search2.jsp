@@ -5,11 +5,11 @@
 <%@ page import="java.util.List"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%
-	List<ListEntry> list = (ArrayList<ListEntry>) session.getAttribute("list");
-	int all = session.getAttribute("all") == null ? 0 : (Integer) session.getAttribute("all");
-	int currentPage = session.getAttribute("currentPage") == null ? 0 : (Integer) session.getAttribute("currentPage");
-	String key = session.getAttribute("key") == null ? "" : (String) session.getAttribute("key");
-	int pages = (int) Math.ceil((double) all / 10);
+	List<ListEntry> datas = (ArrayList<ListEntry>) request.getAttribute("datas");
+	int allCount = request.getAttribute("allCount") == null ? 0 : (Integer) request.getAttribute("allCount");
+	int currentPage = request.getAttribute("currentPage") == null ? 0 : (Integer) request.getAttribute("currentPage");
+	String key = request.getAttribute("key") == null ? "" : (String) request.getAttribute("key");
+	int pages = (int) Math.ceil((double) allCount / 10);
 %>
 <html>
 <head>
@@ -52,6 +52,12 @@
 	height: auto;
 }
 
+.ellipsis{
+	white-space:nowrap;
+	text-overflow: ellipsis;
+	overflow:hidden;
+}
+
 img {
 	max-height: 100%;
 	width: auto;
@@ -66,15 +72,19 @@ img {
 		<div class="row clearfix">
 			<div class="col-md-12 column">
 				<%
-				for(int i = 0; i < 10; i++){
+				for(ListEntry data : datas){
 				%>
 				<div class="col-md-3 column">
 					<div class="panel panel-default">
-						<div class="panel-heading">Panel title1</div>
+						<div class="panel-heading"><h5 class="panel-title ellipsis" dir="ltr"><%=data.getTitle() %></h5></div>
 						<div class="panel-body" style="height: 200px;">
 							<img src="/web/showImage/E/20160714 桂林湿身游/DSC_8812.JPG"
 								class="img-thumbnail center-block" alt="Cinque Terre"
 								id="imageView">
+						</div>
+						<div class="panel-footer">
+							<a href="<%=data.getUrl() %>" target="_blank" class="btn btn-success btn-xs">成功</a>
+							<a href="<%=data.getSource() %>" target="_blank" class="btn btn-danger btn-xs">源</a>
 						</div>
 					</div>
 				</div>
@@ -82,6 +92,7 @@ img {
 				}
 				%>
 			</div>
+			<%if(allCount>0){ %>
 			<nav style="text-align: center">
 			<ul class="pagination">
 				<li><a href="#">Prev</a></li>
@@ -93,6 +104,7 @@ img {
 				<li><a href="#">Next</a></li>
 			</ul>
 			</nav>
+			<%} %>
 		</div>
 	</div>
 </body>
