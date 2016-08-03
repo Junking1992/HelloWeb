@@ -2,6 +2,7 @@ package com.web.service;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
@@ -29,7 +30,8 @@ public class DeployService {
 			File[] files = File.listRoots();
 			for (File file : files) {
 				if (file.isDirectory()) {
-					list.add("<a href='/web/files/" + file.toString().substring(0, 1) + "'>" + file.toString().substring(0, 1) + " 盘</a>");
+					list.add("<a href='/web/files/" + file.toString().substring(0, 1) + "'>"
+							+ file.toString().substring(0, 1) + " 盘</a>");
 				}
 			}
 			return list;
@@ -43,9 +45,11 @@ public class DeployService {
 		for (File file : files.listFiles()) {
 			if (!file.isDirectory()) {
 				if (isImage(file)) {
-					list.add("<span>" + file.getName() + "</span><span> -- " + file.length() / 1024 + "KB</span><button type='button' class='btn btn-danger btn-xs' style='float:right;' onclick='getFileName(this)' data-toggle='modal' data-target='#myModal'>删除文件</button><button type='button' class='btn btn-success btn-xs' style='float:right;margin-right: 20px;' onclick='showImage(this)' data-toggle='modal' data-target='#imagePage'>打开</button>");
+					list.add("<span>" + file.getName() + "</span><span> -- " + file.length() / 1024
+							+ "KB</span><button type='button' class='btn btn-danger btn-xs' style='float:right;' onclick='getFileName(this)' data-toggle='modal' data-target='#myModal'>删除文件</button><button type='button' class='btn btn-success btn-xs' style='float:right;margin-right: 20px;' onclick='showImage(this)' data-toggle='modal' data-target='#imagePage'>打开</button>");
 				} else {
-					list.add("<span>" + file.getName() + "</span><span> -- " + file.length() / 1024 + "KB</span><button type='button' class='btn btn-danger btn-xs' style='float:right;' onclick='getFileName(this)' data-toggle='modal' data-target='#myModal'>删除文件</button>");
+					list.add("<span>" + file.getName() + "</span><span> -- " + file.length() / 1024
+							+ "KB</span><button type='button' class='btn btn-danger btn-xs' style='float:right;' onclick='getFileName(this)' data-toggle='modal' data-target='#myModal'>删除文件</button>");
 				}
 			}
 		}
@@ -109,6 +113,15 @@ public class DeployService {
 			fileIs.read(data); // 读数据
 			return data;
 		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (fileIs != null) {
+					fileIs.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}
