@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,7 +40,7 @@ public class ServerController {
 	@RequestMapping("/search")
 	public String search(String key, String page, ModelMap model) {
 		try {
-			List<ListEntry> datas = null;
+			List<ListEntry> datas = null; 
 			page = page == null ? "1" : page;
 			if(key != null){
 				datas = jsoupYeye.getList(key, Integer.parseInt(page));
@@ -128,6 +129,15 @@ public class ServerController {
 				}
 			}
 		}
+	}
+	
+	@RequestMapping(value="/goInfo")
+	public void  goInfo(HttpServletRequest request, HttpServletResponse response) throws IOException{
+		String url = request.getParameter("url");
+		if(!"".equals(url)){
+			url = jsoupYeye.parseInfoPage(url);
+		}
+		response.sendRedirect(url);
 	}
 
 }
