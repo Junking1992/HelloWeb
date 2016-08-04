@@ -7,6 +7,6 @@
 </head>
 
 <body>
-	404找不到！eclipse修改<a href="/web/index">返回首页</a>
+	404找不到！github修改<a href="/web/index">返回首页</a>
 </body>
 </html>
