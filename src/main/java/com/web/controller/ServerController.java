@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,29 +26,29 @@ import com.web.service.UserInfo;
 public class ServerController {
 
 	public String key;
-
+	
 	public String msg;
-
+	
 	public String flag;
 
 	@Autowired
 	public JsoupYeye jsoupYeye;
-
+	
 	@Autowired
 	public DeployService deployService;
-
+	
 	@RequestMapping("/search")
 	public String search(String key, String page, ModelMap model) {
 		try {
-			List<ListEntry> datas = null;
+			List<ListEntry> datas = null; 
 			page = page == null ? "1" : page;
-			if (key != null) {
+			if(key != null){
 				datas = jsoupYeye.getList(key, Integer.parseInt(page));
-			} else {
+			}else{
 				datas = new ArrayList<ListEntry>();
 			}
 			int allCount = jsoupYeye.getAllCount();
-			if (allCount > 0) {
+			if(allCount > 0){
 				model.addAttribute("pagination", jsoupYeye.getPagination(allCount, Integer.parseInt(page)));
 			}
 			jsoupYeye.end();
@@ -68,7 +69,7 @@ public class ServerController {
 	public String files(HttpServletRequest request, ModelMap model) {
 		try {
 			String url = URLDecoder.decode(request.getRequestURI(), "UTF-8");
-			String path = deployService.parseUri(url, "files");
+			String path = deployService.parseUri(url,"files");
 			model.addAttribute("files", deployService.getAllFiles(path));
 			model.addAttribute("crumbs", deployService.getAllCrumb(path));
 			model.addAttribute("path", path);
@@ -81,21 +82,21 @@ public class ServerController {
 		flag = null;
 		return "file_system";
 	}
-
+	
 	@RequestMapping("/deleteFile/**")
-	public String deleteFile(String deleteKey, String path, String fileName) {
+	public String deleteFile(String deleteKey, String path, String fileName){
 		try {
-			if (!UserInfo.KEY.equals(MD5Encrypt.md5Encode(deleteKey, 32))) {
+			if(!UserInfo.KEY.equals(MD5Encrypt.md5Encode(deleteKey,32))){
 				flag = "false";
 				msg = "口令错误！！";
-				return "redirect:/web/files/" + path;
+				return "redirect:/web/files/"+path;
 			}
 			boolean isDelete = deployService.deleteFile(path, fileName);
-			if (isDelete) {
-				flag = isDelete + "";
+			if(isDelete){
+				flag = isDelete+"";
 				msg = "删除成功！";
-			} else {
-				flag = isDelete + "";
+			}else{
+				flag = isDelete+"";
 				msg = "删除失败！";
 			}
 		} catch (UnsupportedEncodingException e) {
@@ -103,9 +104,9 @@ public class ServerController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "redirect:/web/files/" + path;
+		return "redirect:/web/files/"+path;
 	}
-
+	
 	@RequestMapping("/showImage/**")
 	public void showImage(HttpServletRequest request, HttpServletResponse response, ModelMap model) {
 		OutputStream outStream = null;
@@ -119,8 +120,8 @@ public class ServerController {
 			outStream.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
-		} finally {
-			if (outStream != null) {
+		} finally{
+			if(outStream != null){
 				try {
 					outStream.close();
 				} catch (IOException e) {
@@ -130,4 +131,13 @@ public class ServerController {
 		}
 	}
 	
+	@RequestMapping(value="/goInfo")
+	public void  goInfo(HttpServletRequest request, HttpServletResponse response) throws IOException{
+		String url = request.getParameter("url");
+		if(!"".equals(url)){
+			url = jsoupYeye.parseInfoPage(url);
+		}
+		response.sendRedirect(url);
+	}
+
 }
