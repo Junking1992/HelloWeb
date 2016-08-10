@@ -65,7 +65,7 @@
 		allowScriptAccess : 'always',
 		wmode : 'transparent'
 	};
-	var video = [ '/video/DMG5THJ724.mp4->video/mp4' ];
+	var video = [ '/video/V_SNIS-656FHD.mp4->video/mp4' ];
 	CKobject.embed('/ckplayer/ckplayer.swf', 'a1', 'ckplayer_a1', '100%',
 			'100%', true, flashvars, video, params);
 </script>

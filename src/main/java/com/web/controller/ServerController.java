@@ -139,5 +139,10 @@ public class ServerController {
 		}
 		response.sendRedirect(url);
 	}
+	
+	@RequestMapping(value="/video")
+	public String  video(HttpServletRequest request, HttpServletResponse response) throws IOException{
+		return "video";
+	}
 
 }

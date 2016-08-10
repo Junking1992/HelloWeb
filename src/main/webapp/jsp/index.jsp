@@ -73,7 +73,7 @@
 									<div class="list-group">
 										<a href="/web/search" class="list-group-item"> S2 </a> <a
 											href="/web/files" class="list-group-item">FileSystem</a>
-										<a href="#" class="list-group-item">Morbi leo risus</a> <a
+										<a href="/web/video" class="list-group-item">video</a> <a
 											href="#" class="list-group-item">Porta ac consectetur ac</a>
 										<a href="#" class="list-group-item">Vestibulum at eros</a>
 									</div>
