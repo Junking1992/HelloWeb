@@ -6,11 +6,11 @@ import java.sql.SQLException;
 
 public class TestJDBC {
 	
-	public Connection getConnection() throws SQLException, ClassNotFoundException{
-		String driver = "COM.ibm.db2.jdbc.app.DB2Driver";
-		String url = "jdbc:db2:TEST";
-		String username = "db2admin";
-		String password = "db2admin";
+	public static Connection getConnection() throws SQLException, ClassNotFoundException{
+		String driver = "com.mysql.jdbc.Driver";
+		String url = "jdbc:mysql://localhost:3306/mysql";
+		String username = "root";
+		String password = "wj8621174";
 		Class.forName(driver);
 		return (Connection) DriverManager.getConnection(url, username, password);
 	}
@@ -31,8 +31,8 @@ public class TestJDBC {
 
 	}
 	
-	public static void main(String[] args) {
-		
+	public static void main(String[] args) throws ClassNotFoundException, SQLException {
+		System.out.println(getConnection());
 	}
 
 }

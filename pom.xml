@@ -14,7 +14,7 @@
 		<jsoup.version>1.9.2</jsoup.version>
 		<servlet-api.version>2.5</servlet-api.version>
 		<json.version>20160212</json.version>
-		<mysql.driver>6.0.3</mysql.driver>
+		<mysql.driver>5.1.38</mysql.driver>
 	</properties>
 
 	<dependencies>
