@@ -14,6 +14,7 @@
 		<jsoup.version>1.9.2</jsoup.version>
 		<servlet-api.version>2.5</servlet-api.version>
 		<json.version>20160212</json.version>
+		<mysql.driver>6.0.3</mysql.driver>
 	</properties>
 
 	<dependencies>
@@ -92,6 +93,11 @@
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
 			<version>${json.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql.driver}</version>
 		</dependency>
 	</dependencies>
 
