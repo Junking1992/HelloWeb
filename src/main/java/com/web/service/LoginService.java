@@ -16,7 +16,7 @@ import com.web.api.CommonApi;
 import com.web.api.IpInterface;
 import com.web.common.CookieManager;
 import com.web.common.DateUtils;
-import com.web.common.MD5Encrypt;
+import com.web.common.EncryptUtil;
 import com.web.common.WebUtil;
 import com.web.model.User;
 
@@ -84,7 +84,7 @@ public class LoginService {
 	private void checkUserNameAndPassWord(HttpServletRequest request) throws Exception {
 		String userName = request.getParameter("userName").trim();
 		String passWord = request.getParameter("passWord").trim();
-		passWord = MD5Encrypt.md5Encode(passWord, 32);
+		passWord = EncryptUtil.md5Encode(passWord, 32);
 		if (checkPassWord(userName, passWord)) {
 			// 设定cookie有效时间为从登录到当天24点
 			String nowDayStr = DateUtils.formatDate(new Date(), "yyyy-MM-dd");// 获取当前日期
