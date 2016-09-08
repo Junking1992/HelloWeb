@@ -13,9 +13,9 @@
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script src="http://apps.bdimg.com/libs/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 <!-- Web-Fonts -->
-<link href='http://fonts.useso.com/css?family=Carter+One' rel='stylesheet' type='text/css'>
-<link href='http://fonts.useso.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
-<link href='http://fonts.useso.com/css?family=Cabin:400,500,600,700' rel='stylesheet' type='text/css'>
+<!-- <link href='http://fonts.useso.com/css?family=Carter+One' rel='stylesheet' type='text/css'> -->
+<!-- <link href='http://fonts.useso.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'> -->
+<!-- <link href='http://fonts.useso.com/css?family=Cabin:400,500,600,700' rel='stylesheet' type='text/css'> -->
 <!-- //Web-Fonts -->
 <style type="text/css">
 .whiteFont {
@@ -34,7 +34,7 @@
 }
 
 .h1Font {
-	font-family: 'Carter One', cursive;
+/* 	font-family: 'Carter One', cursive; */
 	font-size: 40px;
 }
 
