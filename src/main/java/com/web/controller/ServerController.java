@@ -140,8 +140,11 @@ public class ServerController {
 		response.sendRedirect(url);
 	}
 	
-	@RequestMapping(value="/video")
-	public String  video(HttpServletRequest request, HttpServletResponse response) throws IOException{
+	@RequestMapping(value="/video/**")
+	public String  video(HttpServletRequest request, ModelMap model) throws IOException{
+//		String url = URLDecoder.decode(request.getRequestURI(), "UTF-8");
+		
+		model.addAttribute("videoPath", request.getRequestURI().replace("/web/video/", ""));
 		return "video";
 	}
 

@@ -1,4 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%
+String videoPath = (String) request.getAttribute("videoPath"); 
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -53,20 +56,33 @@
 </body>
 <script type="text/javascript" src="/ckplayer/ckplayer.js" charset="utf-8"></script>
 <script type="text/javascript">
-	var flashvars = {
-		f : '',
-		c : 0,
-		p : 1,
-		v : 10
-	};
-	var params = {
-		bgcolor : '#FFF',
-		allowFullScreen : true,
-		allowScriptAccess : 'always',
-		wmode : 'transparent'
-	};
-	var video = [ '/video/V_SNIS-656FHD.mp4->video/mp4' ];
-	CKobject.embed('/ckplayer/ckplayer.swf', 'a1', 'ckplayer_a1', '100%',
-			'100%', true, flashvars, video, params);
+// 	var flashvars = {
+// 		f : '',
+// 		c : 0,
+// 		p : 1,
+// 		v : 50
+// 	};
+// 	var params = {
+// 		bgcolor : '#FFF',
+// 		allowFullScreen : true,
+// 		allowScriptAccess : 'always',
+// 		wmode : 'transparent'
+// 	};
+<%-- 	var video = [ '/<%=videoPath%>->video/mp4' ]; --%>
+// 	CKobject.embed('/ckplayer/ckplayer.swf', 'a1', 'ckplayer_a1', '100%',
+// 			'100%', true, flashvars, video, params);
+    var flashvars={
+        f:'/<%=videoPath%>',
+        c:0,
+        p:1,
+        v:20,
+        wh:'16:9',
+        e:1,
+        h:1,
+        n:'asdasdasdasd'
+    };
+    var params={bgcolor:'#FFF',allowFullScreen:true,allowScriptAccess:'always',wmode:'transparent'};
+    var video=['/<%=videoPath%>->video/mp4'];
+    CKobject.embed('/ckplayer/ckplayer.swf','a1','ckplayer_a1','100%','100%',true,flashvars,video,params);
 </script>
 </html>

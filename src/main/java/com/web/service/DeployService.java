@@ -47,7 +47,11 @@ public class DeployService {
 				if (isImage(file)) {
 					list.add("<span>" + file.getName() + "</span><span> -- " + file.length() / 1024
 							+ "KB</span><button type='button' class='btn btn-danger btn-xs' style='float:right;' onclick='getFileName(this)' data-toggle='modal' data-target='#myModal'>删除文件</button><button type='button' class='btn btn-success btn-xs' style='float:right;margin-right: 20px;' onclick='showImage(this)' data-toggle='modal' data-target='#imagePage'>打开</button>");
-				} else {
+				} else if(isVideo(file)){
+					//file.getPath().replace("\\", "/")
+					list.add("<span>" + file.getName() + "</span><span> -- " + file.length() / 1024
+							+ "KB</span><button type='button' class='btn btn-danger btn-xs' style='float:right;' onclick='getFileName(this)' data-toggle='modal' data-target='#myModal'>删除文件</button><a type='button' class='btn btn-success btn-xs' style='float:right;margin-right: 20px;' href='/web/video/" + file.getPath().replace(":", "").replace("\\", "/")  + "' >播放</a>");
+				} else { 
 					list.add("<span>" + file.getName() + "</span><span> -- " + file.length() / 1024
 							+ "KB</span><button type='button' class='btn btn-danger btn-xs' style='float:right;' onclick='getFileName(this)' data-toggle='modal' data-target='#myModal'>删除文件</button>");
 				}
@@ -62,6 +66,13 @@ public class DeployService {
 			if (file.getName().toUpperCase().endsWith(type)) {
 				return true;
 			}
+		}
+		return false;
+	}
+	
+	private boolean isVideo(File file) {
+		if (file.getName().toUpperCase().endsWith(UserInfo.VIDEO_TYPE)) {
+			return true;
 		}
 		return false;
 	}
