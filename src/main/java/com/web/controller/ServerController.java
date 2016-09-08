@@ -16,7 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.web.common.MD5Encrypt;
+import com.web.common.EncryptUtil;
 import com.web.model.ListEntry;
 import com.web.service.DeployService;
 import com.web.service.JsoupYeye;
@@ -86,7 +86,7 @@ public class ServerController {
 	@RequestMapping("/deleteFile/**")
 	public String deleteFile(String deleteKey, String path, String fileName){
 		try {
-			if(!UserInfo.KEY.equals(MD5Encrypt.md5Encode(deleteKey,32))){
+			if(!UserInfo.KEY.equals(EncryptUtil.md5Encode(deleteKey,32))){
 				flag = "false";
 				msg = "口令错误！！";
 				return "redirect:/web/files/"+path;
