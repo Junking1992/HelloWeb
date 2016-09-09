@@ -18,10 +18,6 @@ import com.weixin.service.BasicAutoReply;
 @Controller
 public class WeixinController {
 
-	public static final String TOKEN = "Junking";
-	public static final String ENCODINGAESKEY = "b8IrveqB4TVYTeKriGb8WwcqIMyNDdgK0Q9Z3dtHhQb";
-	public static final String APPID = "wx110a685a82054c59";
-	
 	@Autowired
 	private BasicAutoReply basicAutoReply;
 

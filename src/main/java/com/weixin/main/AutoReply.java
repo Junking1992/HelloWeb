@@ -24,7 +24,7 @@ public abstract class AutoReply {
 	/**
 	 * 实现类需初始化的参数
 	 */
-	protected static String TOKEN, ENCODINGAESKEY, APPID;
+	protected static String TOKEN, ENCODINGAESKEY, APPID, SECRET;
 
 	/**
 	 * 所有类型消息
@@ -90,7 +90,8 @@ public abstract class AutoReply {
 			}
 			// 2.解密
 			WXBizMsgCrypt wxCeypt = new WXBizMsgCrypt(TOKEN, ENCODINGAESKEY, APPID);
-			return wxCeypt.decryptMsg(request.getParameter("msg_signature"), request.getParameter("timestamp"), request.getParameter("nonce"), buf.toString());
+			return wxCeypt.decryptMsg(request.getParameter("msg_signature"), request.getParameter("timestamp"),
+					request.getParameter("nonce"), buf.toString());
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (AesException e) {
@@ -157,13 +158,15 @@ public abstract class AutoReply {
 			msg = doVideo(root.element("MediaId").getText(), root.element("ThumbMediaId").getText());
 			break;
 		case SHORTVIDEO:
-			msg = shortvideo(root);
+			msg = doShortvideo(root.element("MediaId").getText(), root.element("ThumbMediaId").getText());
 			break;
 		case LOCATION:
-			msg = location(root);
+			msg = doLocation(root.element("Location_X").getText(), root.element("Location_Y").getText(),
+					root.element("Scale").getText(), root.element("Label").getText());
 			break;
 		case LINK:
-			msg = link(root);
+			msg = doLink(root.element("Title").getText(), root.element("Description").getText(),
+					root.element("Url").getText());
 			break;
 		default:
 			break;
@@ -200,8 +203,13 @@ public abstract class AutoReply {
 	}
 
 	/**
-	 * 文本消息
+	 * 回复文本消息
+	 * 
+	 * @param content
+	 *            回复的消息内容\n（换行：在content中能够换行，微信客户端就支持换行显示）
+	 * @return
 	 */
+
 	public String text(String content) {
 		Document xml = DocumentHelper.createDocument();
 		Element returnRoot = xml.addElement("xml");
@@ -214,7 +222,11 @@ public abstract class AutoReply {
 	}
 
 	/**
-	 * 图片消息
+	 * 回复图片消息
+	 * 
+	 * @param mediaId
+	 *            通过素材管理中的接口上传多媒体文件，得到的id。
+	 * @return
 	 */
 	public String image(String mediaId) {
 		Document xml = DocumentHelper.createDocument();
@@ -228,7 +240,11 @@ public abstract class AutoReply {
 	}
 
 	/**
-	 * 语音消息
+	 * 回复语音消息
+	 * 
+	 * @param mediaId
+	 *            通过素材管理中的接口上传多媒体文件，得到的id
+	 * @return
 	 */
 	public String voice(String mediaId) {
 		Document xml = DocumentHelper.createDocument();
@@ -242,7 +258,15 @@ public abstract class AutoReply {
 	}
 
 	/**
-	 * 视频消息
+	 * 回复视频消息
+	 * 
+	 * @param mediaId
+	 *            通过素材管理中的接口上传多媒体文件，得到的id
+	 * @param title
+	 *            视频消息的标题
+	 * @param description
+	 *            视频消息的描述
+	 * @return
 	 */
 	public String video(String mediaId, String title, String description) {
 		Document xml = DocumentHelper.createDocument();
@@ -258,23 +282,67 @@ public abstract class AutoReply {
 		return encoderXML(httpServletRequest, returnRoot.asXML());
 	}
 
-	private String shortvideo(Element root) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	private String location(Element root) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	private String link(Element root) {
-		// TODO Auto-generated method stub
-		return null;
+	/**
+	 * 回复音乐消息
+	 * 
+	 * @param title
+	 *            音乐标题
+	 * @param description
+	 *            音乐描述
+	 * @param musicURL
+	 *            音乐链接
+	 * @param hQMusicUrl
+	 *            高质量音乐链接，WIFI环境优先使用该链接播放音乐
+	 * @param thumbMediaId
+	 *            缩略图的媒体id，通过素材管理中的接口上传多媒体文件，得到的id
+	 * @return
+	 */
+	public String music(String title, String description, String musicURL, String hQMusicUrl, String thumbMediaId) {
+		Document xml = DocumentHelper.createDocument();
+		Element returnRoot = xml.addElement("xml");
+		returnRoot.addElement("ToUserName").addCDATA(root.element("FromUserName").getText());
+		returnRoot.addElement("FromUserName").addCDATA(root.element("ToUserName").getText());
+		returnRoot.addElement("CreateTime").addCDATA((System.currentTimeMillis() + "").substring(0, 10));
+		returnRoot.addElement("MsgType").addCDATA("music");
+		Element musicElement = returnRoot.addElement("Music");
+		musicElement.addElement("Title").addCDATA(title);
+		musicElement.addElement("Description").addCDATA(description);
+		musicElement.addElement("MusicUrl").addCDATA(musicURL);
+		musicElement.addElement("HQMusicUrl").addCDATA(hQMusicUrl);
+		musicElement.addElement("ThumbMediaId").addCDATA(thumbMediaId);
+		return encoderXML(httpServletRequest, returnRoot.asXML());
 	}
 
 	/**
-	 * 初始化:TOKEN, ENCODINGAESKEY, APPID
+	 * 回复图文消息
+	 * 
+	 * @param items
+	 *            (NewsVo图文实体最大10个:Title 图文消息标题 ;Description 图文消息描述 PicUrl
+	 *            图片链接，支持JPG、PNG格式，较好的效果为大图360*200，小图200*200 Url 点击图文消息跳转链接)
+	 * @return
+	 */
+	public String news(ArrayList<NewsVo> items) {
+		Document xml = DocumentHelper.createDocument();
+		Element returnRoot = xml.addElement("xml");
+		returnRoot.addElement("ToUserName").addCDATA(root.element("FromUserName").getText());
+		returnRoot.addElement("FromUserName").addCDATA(root.element("ToUserName").getText());
+		returnRoot.addElement("CreateTime").addCDATA((System.currentTimeMillis() + "").substring(0, 10));
+		returnRoot.addElement("MsgType").addCDATA("news");
+		returnRoot.addElement("ArticleCount").addCDATA(items.size() + "");
+		Element newsElement = returnRoot.addElement("Articles");
+		Element itemElement = null;
+		for (NewsVo item : items) {
+			itemElement = newsElement.addElement("item");
+			itemElement.addElement("Title").addCDATA(item.getTitle());
+			itemElement.addElement("Description").addCDATA(item.getDescription());
+			itemElement.addElement("PicUrl").addCDATA(item.getPicUrl());
+			itemElement.addElement("Url").addCDATA(item.getUrl());
+		}
+		return encoderXML(httpServletRequest, returnRoot.asXML());
+	}
+
+	/**
+	 * 初始化:TOKEN, ENCODINGAESKEY, APPID, SECRET
 	 * 
 	 * @author W11821
 	 * @date 2016年9月9日 下午6:20:31
@@ -282,7 +350,7 @@ public abstract class AutoReply {
 	public abstract void init();
 
 	/**
-	 * 处理文本消息
+	 * 接收文本消息
 	 * 
 	 * @param content
 	 *            文本消息内容
@@ -293,7 +361,7 @@ public abstract class AutoReply {
 	public abstract String doText(String content);
 
 	/**
-	 * 处理图片消息
+	 * 接收图片消息
 	 * 
 	 * @param picUrl
 	 *            图片链接（由系统生成）
@@ -306,7 +374,7 @@ public abstract class AutoReply {
 	public abstract String doImage(String picUrl, String mediaId);
 
 	/**
-	 * 处理语音消息
+	 * 接收语音消息
 	 * 
 	 * @param mediaId
 	 *            语音消息媒体id ，可以调用多媒体文件下载接口拉取数据。
@@ -317,7 +385,55 @@ public abstract class AutoReply {
 	 * @date 2016年9月9日 下午6:50:38
 	 */
 	public abstract String doVoice(String mediaId, String format);
-	
+
+	/**
+	 * 接收视频消息
+	 * 
+	 * @param mediaId
+	 *            视频消息媒体id，可以调用多媒体文件下载接口拉取数据。
+	 * @param thumbMediaId
+	 *            视频消息缩略图的媒体id，可以调用多媒体文件下载接口拉取数据。
+	 * @return
+	 */
 	public abstract String doVideo(String mediaId, String thumbMediaId);
-	
+
+	/**
+	 * 接收小视频
+	 * 
+	 * @param mediaId
+	 *            视频消息媒体id，可以调用多媒体文件下载接口拉取数据。
+	 * @param thumbMediaId
+	 *            视频消息缩略图的媒体id，可以调用多媒体文件下载接口拉取数据。
+	 * @return
+	 */
+	public abstract String doShortvideo(String mediaId, String thumbMediaId);
+
+	/**
+	 * 接收地理位置消息
+	 * 
+	 * @param location_X
+	 *            地理位置维度
+	 * @param location_Y
+	 *            地理位置经度
+	 * @param scale
+	 *            地图缩放大小
+	 * @param label
+	 *            地理位置信息
+	 * @return
+	 */
+	public abstract String doLocation(String location_X, String location_Y, String scale, String label);
+
+	/**
+	 * 接收链接消息
+	 * 
+	 * @param title
+	 *            消息标题
+	 * @param description
+	 *            消息描述
+	 * @param url
+	 *            消息链接
+	 * @return
+	 */
+	public abstract String doLink(String title, String description, String url);
+
 }

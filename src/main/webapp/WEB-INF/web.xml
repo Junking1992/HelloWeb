@@ -11,6 +11,12 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j
             org.springframework.web.context.request.RequestContextListener
         </listener-class>    
 	</listener>
+	<!-- 微信access-token后台自动刷新 -->
+	<listener>    
+        <listener-class>    
+            com.weixin.main.AccessTokenListener
+        </listener-class>    
+	</listener>
 
 	<!-- DispatcherServlet, Spring MVC的核心 -->
 	<servlet>
