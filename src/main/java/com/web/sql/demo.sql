@@ -9,12 +9,14 @@ CREATE TABLE user_info (
 
 insert into user_info values ('wangjun','1234',0,'王俊','20160202');
 
-select * from user_info;
+select username, password 'aa' from user_info;
 
 drop database demo;
 
 drop table user_info;
 
-show create database demo;
+show tables;
+
+show databases;
 
 CREATE DATABASE demo;
