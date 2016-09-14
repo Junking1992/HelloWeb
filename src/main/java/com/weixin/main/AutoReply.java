@@ -24,7 +24,7 @@ public abstract class AutoReply {
 	/**
 	 * 实现类需初始化的参数
 	 */
-	protected static String TOKEN, ENCODINGAESKEY, APPID, SECRET;
+	protected static String TOKEN, ENCODINGAESKEY, APPID, APPSECRET;
 
 	/**
 	 * 所有类型消息
