@@ -10,7 +10,7 @@ public class TestJDBC {
 		String driver = "com.mysql.jdbc.Driver";
 		String url = "jdbc:mysql://localhost:3306/mysql";
 		String username = "root";
-		String password = "wj8621174";
+		String password = "wj8621174"; 
 		Class.forName(driver);
 		return (Connection) DriverManager.getConnection(url, username, password);
 	}
